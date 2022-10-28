@@ -39,3 +39,6 @@ yarn-error.log*
 .turbo
 .vscode
 styles/dist.css
+
+# Preview extension
+/__previewjs__
