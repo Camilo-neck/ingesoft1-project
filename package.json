@@ -1,30 +1,47 @@
 {
-  "name": "ingesoft1-project",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "turbo": "next dev --turbo",
+    "dev": "next dev --turbo",
+    "dev:std": "next dev",
+    "dev:tailwind": "concurrently \"next dev --turbo\" \"npm run tailwind \"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tailwind": "npx tailwindcss -i styles/globals.css -o styles/dist.css --watch",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
+    "postinstall": "npm run tailwind"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true
   },
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/material": "^5.10.3",
-    "eslint-config-next": "^13.0.0",
-    "firebase": "^9.9.4",
-    "next": "^13.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "11.10.5",
+    "@mui/material": "5.10.11",
+    "clsx": "1.2.1",
+    "concurrently": "7.5.0",
+    "firebase": "9.13.0",
+    "next": "latest",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "6.0.0-beta.2",
+    "styled-jsx": "5.1.0",
+    "use-count-up": "3.0.1"
   },
   "devDependencies": {
-    "@types/node": "18.7.14",
-    "@types/react": "18.0.18",
+    "@types/node": "18.11.7",
+    "@types/react": "18.0.24",
     "@types/react-dom": "18.0.6",
-    "eslint": "8.23.0",
-    "tailwindcss": "^3.1.8",
-    "typescript": "4.8.2"
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.19.0",
+    "eslint-config-next": "13.0.0",
+    "postcss": "^8.4.14",
+    "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.12",
+    "tailwindcss": "^3.1.6",
+    "typescript": "4.8.4"
   }
 }
