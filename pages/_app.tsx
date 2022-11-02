@@ -1,8 +1,12 @@
-import '../styles/globals.css'
+import '@/styles/globals.css'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { theme } from '@/lib/theme'
 import type { AppProps } from 'next/app'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const chazamTheme = createTheme(theme('light'))
+
+  return <ThemeProvider theme={chazamTheme}><Component {...pageProps} /></ThemeProvider>
 }
 
 export default MyApp
