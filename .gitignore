@@ -46,3 +46,4 @@ styles/dist.css
 
 # Firebase
 /.firebase/
+.firebaserc
