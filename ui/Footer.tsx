@@ -5,7 +5,7 @@ export default function Footer() {
 
 	return (
 		<footer className={styles.footer}>
-			<div className="bg-white shadow w-screen h-full flex flex-row space-x-96 text-black" style={{ height: 200 }}>
+			<div className="bg-white shadow w-screen h-full flex flex-row  text-black" style={{ height: 200 }}>
 				<ul>
 					<li >Coffee</li>
 					<li>Tea</li>
