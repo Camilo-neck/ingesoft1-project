@@ -1,15 +1,49 @@
+// My Components
 import Layout from '@/ui/Layout';
+// React/next imports
 import React from 'react';
-import { auth } from 'config/firebase'
+import Image from 'next/image';
 import { useState } from 'react'
+// Firebase imports
+import { auth } from 'config/firebase'
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, UserInfo, signInWithEmailAndPassword } from 'firebase/auth'
+// Material UI imports
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+// Material UI Icons
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import BackpackIcon from '@mui/icons-material/Backpack';
+import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
+import Link from 'next/link';
+import { ButtonGroup, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 const Register = () => {
+	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
+	const [emailError, setEmailError] = useState(false)
 	const [password, setPassword] = useState('')
+	const [passwordError, setPasswordError] = useState(false)
+	const [role, setRole] = useState('')
 	const [loginEmail, setLoginEmail] = useState('')
 	const [loginPassword, setLoginPassword] = useState('')
 	const [user, setUser] = useState<UserInfo | null>(null)
+
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value)
+		const error = RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(e.target.value)
+		setEmailError(!error)
+	}
+
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value)
+		const error = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*?[#?!@$%^&*-_]).{8,}$/).test(e.target.value)
+		setPasswordError(!error)
+	}
+
+	const handleRoleChange = (e: React.MouseEvent<HTMLElement>, newRole: string) => {
+		setRole(newRole)
+	}
 
 	const handleRegisterEmail = () => {
 		createUserWithEmailAndPassword(auth, email, password)
@@ -28,13 +62,13 @@ const Register = () => {
 
 	const handleLoginEmail = () => {
 		signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-		.then((userCredential) => {
-			// Signed in
-			var user = userCredential.user;
-			console.log(user)
-			setUser(user)
-			// ...
-		})
+			.then((userCredential) => {
+				// Signed in
+				var user = userCredential.user;
+				console.log(user)
+				setUser(user)
+				// ...
+			})
 	}
 
 	const handleRegisterG = () => {
@@ -60,14 +94,14 @@ const Register = () => {
 
 	const handleLogout = () => {
 		auth.signOut()
-		.then(() => {
-			setUser(null)
-		})
+			.then(() => {
+				setUser(null)
+			})
 	}
 
 	return (
-		<Layout>
-			<p>Username:{user?.displayName ? user?.displayName : user?.email}</p>
+		<>
+			{/* <p>Username:{user?.displayName ? user?.displayName : user?.email}</p>
 			<div className='mt-10 ml-2 flex flex-row'>
 				<div>
 					<p>Email:</p>
@@ -124,8 +158,77 @@ const Register = () => {
 						SignOut
 					</button>
 				</div>
+			</div> */}
+			<div className='flex flex-row'>
+				<div className="bg-no-repeat h-screen w-[50%] flex items-center"
+					style={{ backgroundImage: "url('images/register_bg.png')" }}>
+					<Image className='translate-x-44' src="/images/3d-young-woman.svg" alt='3d woman' width={500} height={500} />
+				</div>
+				<div className='bg-[#F7F8FF] flex items-center justify-center w-full rounded-lg'>
+					<div className='flex flex-col gap-12'>
+						<p className='text-3xl font-bold text-center'>Crear Cuenta</p>
+						<div className='flex flex-row gap-8'>
+							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<GoogleIcon />}>Crear cuenta con Google</Button>
+							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Crear cuenta con Facebook</Button>
+						</div>
+						<p className='text-gray-500 text-center'>-OR-</p>
+						<form className='flex flex-col gap-4 justify-items-start'>
+							<TextField
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								id="name-input"
+								fullWidth
+								label="Nombre"
+								variant="standard" />
+							<TextField
+								error={emailError}
+								value={email}
+								onChange={handleEmailChange}
+								id="email-input"
+								type='email'
+								fullWidth
+								label="Email"
+								variant="standard"
+								helperText={emailError && 'Ingrese un correo correcto'} />
+							<TextField
+								error={passwordError}
+								value={password}
+								onChange={handlePasswordChange}
+								id="pass-input"
+								type='password'
+								fullWidth
+								label="Contraseña"
+								variant="standard"
+								helperText={passwordError && 'Mínimo ocho caractéres, al menos una letra mayúscula,\n\n una letra minúscula y un número'} />
+							<div className='flex flex-col'>
+								<hr className='border mb-1'/>
+								<label className='font-semibold text-gray-800'>Seleccione su Rol</label>
+								<ToggleButtonGroup className='self-center' color='secondary' exclusive onChange={handleRoleChange} value={role}>
+									<ToggleButton value='student' sx={{borderRadius: '4rem'}}>
+										<BackpackIcon />
+										Estudiante
+									</ToggleButton>
+									<ToggleButton value='seller' sx={{borderRadius: '4rem'}}>
+										<StoreMallDirectoryIcon />
+										Chacero
+									</ToggleButton>
+								</ToggleButtonGroup>
+							</div>
+							<Button
+								className='self-center py-2 text-black font-semibold bg-[#D5DFF6] hover:bg-[#c6d6fa] rounded-md'
+								fullWidth
+								color='secondary'
+							>
+								Registrarse
+							</Button>
+							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='#'>
+								¿Ya tienes cuenta? Iniciar sesión
+							</Link>
+						</form>
+					</div>
+				</div>
 			</div>
-		</Layout>
+		</>
 	);
 };
 
