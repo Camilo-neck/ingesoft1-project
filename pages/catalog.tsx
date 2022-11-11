@@ -1,4 +1,3 @@
-import cors from 'cors';
 import Layout from "@/ui/Layout";
 import IconButton from "@mui/material/IconButton";
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
@@ -10,8 +9,10 @@ import { useState } from "react";
 import { headers } from "next/headers";
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from '@mui/material';
+import { GetServerSideProps } from "next";
 
-const Catalog = () => {
+const Catalog = (props: { chazas: any[]; }) => {
+	const [chazas, setChazas] = useState(props.chazas);
 	const [filtros, setFiltros] = useState<{name:string; color:"inherit" | "secondary" | "primary" | "info" | "success" | "error" | "warning" | undefined}[]>([{name:'Más relevantes', color:'secondary'}, {name:'Menor precio', color:'primary'}, {name:'Mayor precio', color:'info'}]);
 	const [orden, setOrden] = useState<string>('Relevancia');
 	const [categorias, setCaregorias] = useState([]);
@@ -36,7 +37,7 @@ const Catalog = () => {
 			<p className='font-semibold text-xl'>Categorías</p>
 			<div>
 				<p>Slider</p>
-				{/* <Button variant="outlined" onClick={fetchCategorias}>LOAD</Button> */}
+				{/* <Button variant="outlined" onClick={() => console.log(props)}>LOAD</Button> */}
 			</div>
 			<hr />
 			<div className="flex flex-col gap-10 m-4">
@@ -72,33 +73,48 @@ const Catalog = () => {
 						</FormControl>
 					</div>
 				</div>
-				<div className="flex flex-row flex-wrap gap-2 h-full overflow-y-auto">
+				<div className="flex flex-row flex-wrap gap-8 h-full overflow-y-auto">
 					{/*Chaza Card [TODO -> Pass to own component > Map json chazas] */}
-					<div className='w-72 h-72 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: 'url("images/pizza_store.jpg")'}}>
-						<div className="flex items-end justify-center rounded-lg backdrop-brightness-50 hover:backdrop-filter-none transition-all ease-linear duration-200 h-full w-full">
-							<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
-								<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
-									<div className='w-6 h-6 rounded-full bg-red-600'></div>
-									<div className='flex flex-col'>
-										<p className='text-white font-semibold'>Pizza Store</p>
-										<div className='flex flex-row gap-1'>
-											<p className='text-white text-xs'>Ed.  Insignia</p> 
-											<p className='text-white text-xs'>|</p>
-											<p className='text-white text-xs'>300 3512478</p>
+					{chazas.map((chaza: any, index: number) => (
+						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: 'url("images/pizza_store.jpg")'}}>
+							<div className="flex items-end justify-center rounded-lg backdrop-brightness-50 hover:backdrop-filter-none transition-all ease-linear duration-200 h-full w-full">
+								<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
+									<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
+										<div className='w-6 h-6 rounded-full bg-red-600'></div>
+										<div className='flex flex-col'>
+											<p className='text-white font-semibold'>{chaza.nombre}</p>
+											<div className='flex flex-row gap-1'>
+												<p className='text-white text-xs'>{chaza.ubicacion}</p> 
+												<p className='text-white text-xs'>|</p>
+												<p className='text-white text-xs'>{chaza.telefono}</p>
+											</div>
 										</div>
-									</div>
-									<div className='flex flex-row items-center p-1 rounded-md bg-[#FB850054]'>
-										<StarRoundedIcon className='text-[#FB8500]' />
-										<p className='text-white text-sm font-semibold'>4.5</p>
+										<div className='flex flex-row items-center p-1 rounded-md bg-[#FB850054]'>
+											<StarRoundedIcon className='text-[#FB8500]' />
+											<p className='text-white text-sm font-semibold'>{chaza.calificacion.toFixed(1)}</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					))}
+					
 				</div>
 			</div>
 		</Layout>
 	);
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const chazas = await fetch('http://localhost:3000/api/chaza')
+	.then(res => res.json())
+	.catch(err => console.log(err));
+	console.log(chazas);
+	return {
+		props: {
+			chazas
+		}
+	}	
+}
 
 export default Catalog;
