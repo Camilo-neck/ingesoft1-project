@@ -41,25 +41,6 @@ const categories = [
     cardTitle: "Almuerzo",
     cardSubtitle: "Delicias en tus tardes"
   },
-  {
-    img: '/Cards/Ropa.png',
-    cardImageDescription: "Ropa",
-    cardTitle: "Ropa",
-    cardSubtitle: "Todo lo mejor a tu estilo"
-  },
-  {
-    img: '/Cards/Bisuteria.png',
-    cardImageDescription: "Bisuteriao",
-    cardTitle: "Bisuteria",
-    cardSubtitle: "Accesorios para todos"
-  },
-  {
-    img: '/Cards/Postres.png',
-    cardImageDescription: "Postres",
-    cardTitle: "Postres",
-    cardSubtitle: "Lo que te alegra los dias"
-  }
-
 ]
 
 function SliderOfCards() {
@@ -240,14 +221,12 @@ function SliderOfCards() {
     //     </div>          
 
     // </div>    
-    <div >
-      <p className="m-6 text-2xl font-bold tracking-widest leading-none">Categorías</p>
-
+    <div className='self-center'>
       <div className='relative flex flex-row items-center'>
         <ArrowBackIcon onClick={slideLeft} />
         <div
           id='slider'
-          className='w-[100rem] h-80px overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide'
+          className='w-[100rem] h-80px overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
         > {/* Add responsivness to the slider */}
           {/* {categories.map((item) => (
             // eslint-disable-next-line react/jsx-key

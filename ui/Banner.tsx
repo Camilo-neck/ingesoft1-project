@@ -6,7 +6,7 @@ export default function Banner() {
 	}
 
 	return (
-		<div className='flex flex-col md:flex-row flex-1 items-center w-screen h-96 md:h-[29rem] backdrop-filter backdrop-blur-md drop-shadow-md absolute' style={bannerStyle}>
+		<div className='flex flex-col md:flex-row flex-1 items-center w-screen h-72 md:h-[29rem] backdrop-filter backdrop-blur-md drop-shadow-md' style={bannerStyle}>
 			<div className="flex flex-row md:flex-col 2xl:flex-row grow-0 md:grow self-center items-center pt-2">
 				<div className='flex flex-row'> {/* left side - 3D images */}
 					<picture>
