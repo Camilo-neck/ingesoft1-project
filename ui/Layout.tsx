@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="">
 			<CNavBar />
-			<main className={styles.main}>
+			<main className='min-h-screen pt-1 flex flex-1 flex-col'>
 				{children}
 				<SliderOfCards/>
 			</main>
