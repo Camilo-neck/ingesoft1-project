@@ -14,7 +14,7 @@ import { GetServerSideProps } from "next";
 const Catalog = (props: { chazas: any[]; }) => {
 	const [chazas, setChazas] = useState(props.chazas);
 	const [filtros, setFiltros] = useState<{name:string; color:"inherit" | "secondary" | "primary" | "info" | "success" | "error" | "warning" | undefined}[]>([{name:'Más relevantes', color:'secondary'}, {name:'Menor precio', color:'primary'}, {name:'Mayor precio', color:'info'}]);
-	const [orden, setOrden] = useState<string>('Relevancia');
+	const [orden, setOrden] = useState<number | string>(1);
 	const [categorias, setCaregorias] = useState([]);
 
 	const fetchCategorias = async () => {
@@ -63,7 +63,7 @@ const Catalog = (props: { chazas: any[]; }) => {
 							label="Ordenar por"
 							size='small'
 							value={orden}
-							onChange={(e) => setOrden(e.target.value as string)}
+							onChange={(e) => {setOrden(e.target.value)}}
 							sx={{borderRadius: '9999px'}}
 							>
 								<MenuItem value={1}>Relevancia</MenuItem>
