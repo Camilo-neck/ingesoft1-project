@@ -26,12 +26,16 @@
     "concurrently": "7.5.0",
     "cors": "2.8.5",
     "firebase": "9.13.0",
+    "flowbite": "1.5.3",
+    "flowbite-react": "0.3.4",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-owl-carousel": "2.3.3",
+    "react-responsive-carousel": "3.2.23",
     "styled-components": "6.0.0-beta.2",
     "styled-jsx": "5.1.0",
+    "tailwind-scrollbar-hide": "1.1.7",
     "use-count-up": "3.0.1"
   },
   "devDependencies": {
