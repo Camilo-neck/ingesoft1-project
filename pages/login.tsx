@@ -18,7 +18,7 @@ import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 import Link from 'next/link';
 import { ButtonGroup, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-const Register = () => {
+const Login = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [emailError, setEmailError] = useState(false)
@@ -162,14 +162,14 @@ const Register = () => {
 			<div className='flex flex-row'>
 				<div className="bg-no-repeat h-screen w-[50%] flex items-center"
 					style={{ backgroundImage: "url('images/register_bg.png')" }}>
-					<Image className='translate-x-44' src="/images/3d-young-woman.svg" alt='3d woman' width={500} height={500} />
+					<Image className='translate-x-44' src="/images/3d men.svg" alt='3d woman' width={500} height={500} />
 				</div>
 				<div className='bg-[#F7F8FF] flex items-center justify-center w-full rounded-lg'>
 					<div className='flex flex-col gap-12'>
-						<p className='text-3xl font-bold text-center'>Crear Cuenta</p>
+						<p className='text-3xl font-bold text-center'>Iniciar Sesión</p>
 						<div className='flex flex-row gap-8'>
-							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<GoogleIcon />}>Crear cuenta con Google</Button>
-							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Crear cuenta con Facebook</Button>
+							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<GoogleIcon />}>Iniciar sesión con Google </Button>
+							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Iniciar sesión con Facebook</Button>
 						</div>
 						<p className='text-gray-500 text-center'>-OR-</p>
 						<form className='flex flex-col gap-4 justify-items-start'>
@@ -178,7 +178,7 @@ const Register = () => {
 								onChange={(e) => setName(e.target.value)}
 								id="name-input"
 								fullWidth
-								label="Nombre"
+								label=" Correo electrónico"
 								variant="standard" />
 							<TextField
 								error={emailError}
@@ -187,42 +187,18 @@ const Register = () => {
 								id="email-input"
 								type='email'
 								fullWidth
-								label="Email"
-								variant="standard"
-								helperText={emailError && 'Ingrese un correo correcto'} />
-							<TextField
-								error={passwordError}
-								value={password}
-								onChange={handlePasswordChange}
-								id="pass-input"
-								type='password'
-								fullWidth
 								label="Contraseña"
 								variant="standard"
-								helperText={passwordError && 'Mínimo ocho caractéres, al menos una letra mayúscula,\n\n una letra minúscula y un número'} />
-							<div className='flex flex-col'>
-								<hr className='border mb-1'/>
-								<label className='font-semibold text-gray-800'>Seleccione su Rol</label>
-								<ToggleButtonGroup className='self-center' color='secondary' exclusive onChange={handleRoleChange} value={role}>
-									<ToggleButton value='student' sx={{borderRadius: '4rem'}}>
-										<BackpackIcon />
-										Estudiante
-									</ToggleButton>
-									<ToggleButton value='seller' sx={{borderRadius: '4rem'}}>
-										<StoreMallDirectoryIcon />
-										Chacero
-									</ToggleButton>
-								</ToggleButtonGroup>
-							</div>
+								helperText={emailError && 'Ingrese un correo correcto'} />
 							<Button
 								className='self-center py-2 text-black font-semibold bg-[#D5DFF6] hover:bg-[#c6d6fa] rounded-md'
 								fullWidth
 								color='secondary'
 							>
-								Registrarse
+								Iniciar sesión
 							</Button>
 							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='#'>
-								¿Ya tienes cuenta? Iniciar sesión
+								No tienes cuenta? Registrate
 							</Link>
 						</form>
 					</div>
@@ -232,4 +208,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default Login;
