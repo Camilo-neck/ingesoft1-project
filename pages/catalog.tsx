@@ -17,21 +17,6 @@ const Catalog = (props: { chazas: any[]; }) => {
 	const [orden, setOrden] = useState<number | string>(1);
 	const [categorias, setCaregorias] = useState([]);
 
-	const fetchCategorias = async () => {
-		const res = await fetch('http://localhost:3000/api/chaza', {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-			}
-		});
-		// console.log(res.text());
-		const data = await res.json();
-		console.log(await res.json())
-		setCaregorias(data);
-	}
-
 	return (
 		<Layout>
 			<p className='font-semibold text-xl'>Categorías</p>
@@ -106,7 +91,7 @@ const Catalog = (props: { chazas: any[]; }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const chazas = await fetch('http://localhost:3000/api/chaza')
+	const chazas = await fetch('http://localhost:3000/api/chaza?categoria=Comida')
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	console.log(chazas);

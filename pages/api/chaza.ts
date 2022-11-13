@@ -36,9 +36,10 @@ export default async function handler(
 	res: NextApiResponse<Chaza[]>
 ) {
 	await runMiddleware(req, res, cors)
-	console.log("running")
-	try {       
-		const response = await fetch("http://localhost:5000/chaza/list", {
+	try {
+		const query = req.query
+		console.log(query.nombre)
+		const response = await fetch(`http://localhost:5000/chaza/?categoria=${query.categoria}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
