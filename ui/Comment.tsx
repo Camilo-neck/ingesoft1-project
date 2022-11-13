@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useState} from 'react'
 import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -8,7 +8,7 @@ import Button, { ButtonProps } from '@mui/material/Button';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import IconButton from '@mui/material/IconButton';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-
+import ModalReport from './ModalReport';
 
 const UpVotesButton = styled(Button)({
     boxShadow: 'none',
@@ -34,6 +34,7 @@ const UpVotesButton = styled(Button)({
   });
 
 function Comment({userName, userPhoto, grade, date,comment}:{userName:string, userPhoto:string, grade:number, date:string,comment:string}) {
+  const [openModal, setOpenModal] = useState(false)
   return (
     <div className='w-full flex justify-center mt-4'>
         <div className="w-11/12 bg-white border border-gray-300 p-3">
@@ -59,10 +60,10 @@ function Comment({userName, userPhoto, grade, date,comment}:{userName:string, us
             <UpVotesButton variant="contained" startIcon={<ThumbUpOffAltIcon />}>
                 15 upvotes
             </UpVotesButton>
-            <IconButton color="secondary" aria-label="add an alarm">
+            <IconButton onClick={() => setOpenModal(true)} color="secondary" aria-label="add an alarm">
                 <ErrorOutlineIcon sx={{ color: red[500] }}/>
             </IconButton> 
-                
+            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(false)}/>
             </div>
         </div>
     </div>
