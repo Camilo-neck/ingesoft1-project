@@ -6,7 +6,7 @@ export default function Cards({cardImage,cardImageDescription, cardTitle, cardSu
 
 	return (
 		
-		<div className="flex-none h-105 w-56  border rounded-lg m-4 bg-white border rounded-xl grid-row-3 border-gray-300 inline-block  cursor-pointer hover:scale-105 ease-in-out duration-300">
+		<div className="flex-none h-105 w-56  m-4 bg-white border rounded-xl grid-row-3 border-gray-300 inline-block  cursor-pointer hover:scale-105 ease-in-out duration-300">
 			<div className="text-center justify-center">
 				
 				<Image
@@ -14,7 +14,7 @@ export default function Cards({cardImage,cardImageDescription, cardTitle, cardSu
 					width={200}
 					height = {300}
 					alt = {cardImageDescription}			
-					className='w-20 h-15 md:w-32 sm:w-32 w-fit h-fit md:translate-y-5 md:translate-x-12 sm:translate-y-5 sm:translate-x-12 translate-y-12'
+					className='w-20 h-15 md:w-32 sm:w-32 h-fit md:translate-y-5 md:translate-x-12 sm:translate-y-5 sm:translate-x-12 translate-y-12'
 					/>
 				
 			</div>

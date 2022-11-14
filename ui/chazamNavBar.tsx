@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import  Image  from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -166,14 +167,15 @@ export default function CNavBar() {
 						edge="start"
 						color="inherit"
 						aria-label="open drawer"
-						sx={{ mr: 2 }}
+						sx={{ mr: 0 }}
 					>
-						<MenuIcon />
+						<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
 					</IconButton>
 					<Typography
 						variant="h6"
 						noWrap
 						component="div"
+						className='font-semibold'
 						sx={{ display: { xs: 'none', sm: 'block' } }}
 					>
 						Corgis
