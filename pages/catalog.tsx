@@ -17,12 +17,18 @@ const Catalog = (props: { chazas: any[]; }) => {
 	const [orden, setOrden] = useState<number | string>(1);
 	const [categorias, setCaregorias] = useState([]);
 
+	const fetchChz = async () => {
+		const res = await fetch('http://localhost:3000/api/chaza?categoria=Comida');
+		const data = await res.json();
+		console.log(data);
+	}
+
 	return (
 		<Layout>
 			<p className='font-semibold text-xl'>Categorías</p>
 			<div>
 				<p>Slider</p>
-				{/* <Button variant="outlined" onClick={() => console.log(props)}>LOAD</Button> */}
+				<Button variant="outlined" onClick={fetchChz}>LOAD</Button>
 			</div>
 			<hr />
 			<div className="flex flex-col gap-10 m-4">
@@ -90,8 +96,8 @@ const Catalog = (props: { chazas: any[]; }) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const chazas = await fetch('http://localhost:3000/api/chaza?categoria=Comida')
+export const getServerSideProps: GetServerSideProps = async () => {
+	const chazas = await fetch('http://127.0.0.1:5000/chaza')
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	console.log(chazas);
