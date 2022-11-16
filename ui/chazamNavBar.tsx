@@ -18,6 +18,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Link from 'next/link';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -162,15 +163,12 @@ export default function CNavBar() {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static" className='rounded-sm'>
 				<Toolbar>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						aria-label="open drawer"
-						sx={{ mr: 0 }}
-					>
-						<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
-					</IconButton>
+					
+					<Link href={"/"}>
+					<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
+					</Link>
+					<Link href={"/"}>
+						
 					<Typography
 						variant="h6"
 						noWrap
@@ -180,6 +178,8 @@ export default function CNavBar() {
 					>
 						Corgis
 					</Typography>
+					</Link>
+					
 					<Search className='flex-grow rounded-xl'>
 						<SearchIconWrapper>
 							<SearchIcon className='text-gray-700'/>
