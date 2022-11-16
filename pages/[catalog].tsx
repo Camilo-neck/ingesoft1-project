@@ -66,8 +66,8 @@ const Catalog = (props: { chazas: any[]; }) => {
 				</div>
 				<div className="flex flex-row flex-wrap gap-8 h-full overflow-y-auto">
 					{/*Chaza Card [TODO -> Pass to own component > Map json chazas] */}
-					{chazas.map((chaza: any, index: number) => (
-						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}")`}}>
+					{chazas.map((chaza: any, index: number) => ( 
+						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
 							<div className="flex items-end justify-center rounded-lg backdrop-brightness-50 hover:backdrop-filter-none transition-all ease-linear duration-200 h-full w-full">
 								<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
 									<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
