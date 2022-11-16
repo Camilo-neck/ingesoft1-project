@@ -168,6 +168,7 @@ export default function CNavBar() {
 					<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
 					</Link>
 					<Link href={"/"}>
+						
 					<Typography
 						variant="h6"
 						noWrap
