@@ -19,8 +19,8 @@ const categories = [
 	},
 	{
 		img: '/Cards/fastFood.png',
-		cardImageDescription: "Comidas rápidas",
-		cardTitle: "Comidas rápidas",
+		cardImageDescription: "Comidas rapidas",
+		cardTitle: "Comidas rapidas",
 		cardSubtitle: "Delicias al instante"
 	  },
 	{
