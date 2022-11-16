@@ -30,18 +30,18 @@ const profileRaitings = {
     ]
 }
 
-export default function LayoutProfile({ children }: { children: React.ReactNode }) {
+export default function LayoutProfile({ chaza, children }: { chaza: any, children: React.ReactNode }) {
     
 	return (
 		<div className="">
 			<CNavBar />
-			<main className="h-">
+			<main className="">
                 <div className="flex flex-column gap-6">
                     <div className=" basis-1/5 sm:w-1/2 bg-white shadow-xl border border-gray-400">
-                        <ProfileData nombreChaza={profileData.nombre} description ={profileData.description} location={profileData.location} tel={profileData.tel} days={profileData.days} schedule ={profileData.schedule} categorie ={profileData.categorie} img={profileData.avatar} photos={profileData.photos}/>
+                        <ProfileData nombreChaza={chaza.nombre} description ={chaza.descripcion} location={chaza.ubicacion} tel={chaza.telefono} days={profileData.days} schedule ={chaza.horario} categories={chaza.categorias} img={profileData.avatar} photos={profileData.photos}/>
                     </div>
                     <div className="mt-6 mb-6 basis-4/5 sm:w-1/2 bg-white overflow-auto scrollbar-hide">
-                        <ProfileRatings meanGrade={profileRaitings.meanGrade} raitings={profileRaitings.raitings}/>
+                        <ProfileRatings meanGrade={chaza.calificacion.toFixed(1)} raitings={profileRaitings.raitings}/>
                         
                     </div>
                     

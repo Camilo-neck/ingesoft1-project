@@ -9,7 +9,7 @@ import PhotosSlider from "./PhotosSlider"
 import ModalReport from './ModalReport';
 import ModalRating from './ModalRating';
 
-function ProfileData({nombreChaza, description,location,tel,days,schedule, categorie,img,photos}:{nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categorie: string, img: string, photos: {
+function ProfileData({nombreChaza, description,location,tel,days,schedule, categories, img,photos}:{nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categories: string[], img: string, photos: {
     id: number;
     url: string;
     title: string;
@@ -63,10 +63,14 @@ function ProfileData({nombreChaza, description,location,tel,days,schedule, categ
                 
             </div>
             
-            <div className="space-y-1 items-start justify-center w-full h-24 pl-3 pr-4 pt-2 pb-1 bg-white shadow border rounded-3xl border-gray-400">
+            <div className="space-y-1 items-start justify-center w-full h-24 px-5 py-3 bg-white shadow border rounded-full border-gray-400">
                 <p className="justify-self-center text-sm font-bold leading-none text-gray-700"> Categoria</p>
-                <div className="grid justify-items-center content-center w-20 h-8 absolute bg-yellow-500  hover:bg-yellow-300 bg-opacity-70 border rounded-full border-gray-700">
-                    <p className="absolute text-sm font-medium pt-2 leading-none text-black">{categorie}</p>
+                <div className='flex flex-row w-full gap-5'>
+                {categories.map((cat: string, index: number) => (
+                    <div key={index} className="flex items-center text-center w-fit h-fit px-2 py-1 bg-yellow-500  hover:bg-yellow-300 bg-opacity-70 border rounded-full border-gray-700">
+                        <p className="text-sm font-medium pt-2 leading-nonetext-black">{cat}</p>
+                    </div>
+                ))}
                 </div>
                 
                 

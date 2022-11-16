@@ -10,7 +10,7 @@ const Footer = () => {
           <p className='text-lg font-bold'>Nuestras Redes sociales:</p>
           <div className='flex flex-col gap-2 self-auto xl:self-center'>
             <a
-            href="https://www.facebook.com/BetterCampus2"
+            
             target="_blank"
             rel="noopener noreferrer"
             >
@@ -20,7 +20,7 @@ const Footer = () => {
                 <p className='text-lg font-bold inline'>    Corgis_app</p>
             </a>
             <a
-            href="https://instagram.com/better_campus"
+            
             target="_blank"
             rel="noopener noreferrer">
                 <span className='items-center inline'>
@@ -50,7 +50,6 @@ const Footer = () => {
           <p className='text-lg font-bold'>Contacto:</p>
           <div className='flex flex-col gap-2 self-auto xl:self-center'>
             <a
-            href="mailto:ccuello@unal.edu.co"
             target="_blank"
             rel="noopener noreferrer"
             >
@@ -60,7 +59,6 @@ const Footer = () => {
                 </span>
             </a>
             <a
-            href="mailto:jorozcove@unal.edu.co"
             target="_blank"
             rel="noopener noreferrer"
             >
@@ -77,7 +75,6 @@ const Footer = () => {
           <p className='text-lg font-bold'>Acerca de nosotros:</p>
           <div className='flex flex-col gap-x-2 self-auto xl:self-center'>
             <a
-            href="https://unal.edu.co/"
             target="_blank"
             rel="noopener noreferrer"
             className='no-underline hover:underline hover:decoration-dotted'
@@ -87,7 +84,6 @@ const Footer = () => {
                 </span>
             </a>
             <a
-            href="https://legal.unal.edu.co/"
             target="_blank"
             rel="noopener noreferrer"
             className='no-underline hover:underline hover:decoration-dotted'
@@ -99,7 +95,6 @@ const Footer = () => {
             </a>
 
             <a
-            href="https://bogota.unal.edu.co/"
             target="_blank"
             rel="noopener noreferrer"
             className='no-underline hover:underline hover:decoration-dotted'
@@ -111,7 +106,6 @@ const Footer = () => {
             </a>
 
             <a
-            href="https://sia.unal.edu.co/ServiciosApp/facespublico/public/servicioPublico.jsf?taskflowId=task-flow-AC_CatalogoAsignaturas"
             target="_blank"
             rel="noopener noreferrer"
             className='no-underline hover:underline hover:decoration-dotted'
@@ -122,7 +116,6 @@ const Footer = () => {
                 </span>
             </a>
             <a
-            href="https://programasacademicos.unal.edu.co"
             target="_blank"
             rel="noopener noreferrer"
             className='no-underline hover:underline hover:decoration-dotted'
