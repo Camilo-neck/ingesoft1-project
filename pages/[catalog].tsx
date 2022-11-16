@@ -67,7 +67,7 @@ const Catalog = (props: { chazas: any[]; }) => {
 				<div className="flex flex-row flex-wrap gap-8 h-full overflow-y-auto">
 					{/*Chaza Card [TODO -> Pass to own component > Map json chazas] */}
 					{chazas.map((chaza: any, index: number) => (
-						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: 'url("images/pizza_store.jpg")'}}>
+						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}")`}}>
 							<div className="flex items-end justify-center rounded-lg backdrop-brightness-50 hover:backdrop-filter-none transition-all ease-linear duration-200 h-full w-full">
 								<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
 									<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
@@ -96,8 +96,10 @@ const Catalog = (props: { chazas: any[]; }) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const chazas = await fetch('http://127.0.0.1:5000/chaza')
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const query = context.query
+	const chazas = await fetch(`http://127.0.0.1:5000/chaza?categoria=${query.categoria}`)
+	
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	console.log(chazas);
