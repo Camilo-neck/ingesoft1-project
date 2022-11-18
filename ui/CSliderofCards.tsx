@@ -35,7 +35,7 @@ function CSliderOfCards({ categories, children }: {
 				<ArrowBackIcon onClick={slideLeft} />
 				<div
 					id='slider'
-					className='flex flex-row w-[17rem] sm:w-[25rem] md:w-[40rem] lg:w-[60rem] xl:w-[80rem] 2xl:w-[100rem] h-80px overflow-x-auto scroll whitespace-nowrap 
+					className='flex flex-row w-[17rem] sm:w-[25rem] md:w-[40rem] lg:w-[60rem] xl:w-fit h-80px overflow-x-auto scroll whitespace-nowrap 
           scroll-smooth scrollbar-hide transition-all ease-in-out duration-300'
 				> {/* Add responsivness to the slider */}
 					{/* {categories.map((item) => (

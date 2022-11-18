@@ -35,12 +35,9 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 
 	return (
 		<Layout>
-			<div className="p-3 m-1">
-				<p className='font-semibold text-xl'>Categorías</p>
-				<div>
-					<CSliderOfCards categories={props.categories} />
-					{/* <Button variant="outlined" onClick={fetchChz}>LOAD</Button> */}
-				</div>
+			<div className="p-3 m-1 w-full">
+				<p className='font-semibold text-xl self-start'>Categorías</p>
+				<CSliderOfCards categories={props.categories} />
 			</div>
 			<hr />
 			<div className="flex flex-col gap-10 m-4">
