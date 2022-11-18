@@ -5,31 +5,42 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { headers } from "next/headers";
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from '@mui/material';
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import CSliderOfCards from "@/ui/CSliderofCards";
+import { useRouter } from "next/router";
 
-const Catalog = (props: { chazas: any[]; }) => {
+const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 	const [chazas, setChazas] = useState(props.chazas);
 	const [filtros, setFiltros] = useState<{name:string; color:"inherit" | "secondary" | "primary" | "info" | "success" | "error" | "warning" | undefined}[]>([{name:'Más relevantes', color:'secondary'}, {name:'Menor precio', color:'primary'}, {name:'Mayor precio', color:'info'}]);
 	const [orden, setOrden] = useState<number | string>(1);
 	const [categorias, setCaregorias] = useState([]);
+	const router = useRouter();
 
-	const fetchChz = async () => {
-		const res = await fetch('http://localhost:3000/api/chaza?categoria=Comida');
-		const data = await res.json();
-		console.log(data);
-	}
+	
+	useEffect(() => {
+		console.log('in')
+		const fetchChz = async (category: string | string[] | undefined) => {
+			console.log(category);
+			const res = await fetch(`http://localhost:3000/api/chaza?categoria=${category}`);
+			const data = await res.json();
+			setChazas(data)
+		}
+		fetchChz(router.query.categoria)
+	}, [router.query.categoria])
 
 	return (
 		<Layout>
-			<p className='font-semibold text-xl'>Categorías</p>
-			<div>
-				<p>Slider</p>
-				<Button variant="outlined" onClick={fetchChz}>LOAD</Button>
+			<div className="p-3 m-1">
+				<p className='font-semibold text-xl'>Categorías</p>
+				<div>
+					<CSliderOfCards categories={props.categories} />
+					{/* <Button variant="outlined" onClick={fetchChz}>LOAD</Button> */}
+				</div>
 			</div>
 			<hr />
 			<div className="flex flex-col gap-10 m-4">
@@ -103,13 +114,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const query = context.query
 	console.log(query)
 	const chazas = await fetch(`http://127.0.0.1:5000/chaza?categoria=${query.categoria ? query.categoria : 'Todas'}`)
-	
 	.then(res => res.json())
 	.catch(err => console.log(err));
-	console.log(chazas);
+	const categories = await fetch('http://127.0.0.1:3000/api/categories')
+	.then(res => res.json())
+	.catch(err => console.log(err));
+
 	return {
 		props: {
-			chazas
+			chazas,
+			categories
 		}
 	}	
 }

@@ -11,8 +11,6 @@ export default function Cards({cardImage,cardImageDescription, cardTitle, cardSu
 			<div className='grid grid-rows-2 '>
 				<div className="text-center justify-center">
 					<img src={cardImage} alt={cardImageDescription} className='w-[7rem] md:w-32 sm:w-28 h-fit md:translate-y-5 md:translate-x-12 translate-y-5 translate-x-12 translate-y-12' />
-					
-					
 				</div>
 				<div className="text-center justify-items-centerr">
 					<p className="py-5 mt-2 text-2xl font-semibold tracking-widest leading-none"> {cardTitle}</p>
@@ -22,8 +20,6 @@ export default function Cards({cardImage,cardImageDescription, cardTitle, cardSu
 					
 				</div>
 			</div>
-			
-			
 			</Link>
 		</div>
 	)
