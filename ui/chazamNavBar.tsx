@@ -101,8 +101,11 @@ export default function CNavBar() {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}
-		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+		>	
+			<Link href={'/viewProfile'}>
+				<MenuItem>Profile</MenuItem>
+			</Link>
+			
 			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
 		</Menu>
 	);

@@ -3,7 +3,7 @@ import LayoutProfile from '@/ui/LayoutProfile'
 import Banner from '@/ui/Banner'
 
 
-const profile: NextPage = () => {
+const profile = () => {
 	return (
 		<LayoutProfile>
             
