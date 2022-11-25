@@ -20,6 +20,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 
+// Firebase imports
+import { auth } from 'config/firebase'
+import { Auth, onAuthStateChanged, User } from 'firebase/auth';
+import Button from '@mui/material/Button';
+
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
 	borderRadius: theme.shape.borderRadius,
@@ -61,6 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function CNavBar() {
+	const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
 		React.useState<null | HTMLElement>(null);
@@ -85,6 +91,28 @@ export default function CNavBar() {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
 
+	const authState = (currauth: Auth) =>  onAuthStateChanged(currauth, (user) => {
+		console.log('in onAuthStateChanged');
+		if (user) {
+			// User is signed in, see docs for a list of available properties
+			// https://firebase.google.com/docs/reference/js/firebase.User
+			const curruser = user;
+			setCurrentUser(curruser);
+			console.log(curruser)
+			// ...
+		} else {
+			// User is signed out
+			// ...
+			setCurrentUser(null);
+			console.log('no user')
+		}
+	});
+
+	React.useEffect(() => {
+		console.log('start')
+		authState(auth);
+	}, [auth, authState]);
+
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -101,9 +129,12 @@ export default function CNavBar() {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}
-		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+		>	
+			<Link href={'/viewProfile'}>
+				<MenuItem>Profile</MenuItem>
+			</Link>
+			<MenuItem onClick={() => auth.signOut().then(() => {setCurrentUser(null); handleMenuClose()})}>Sign Out</MenuItem>
+			<MenuItem onClick={handleMenuClose}>Close</MenuItem>
 		</Menu>
 	);
 
@@ -207,17 +238,21 @@ export default function CNavBar() {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton> */}
+						{currentUser ? (
 						<IconButton
 							size="large"
 							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
 							aria-haspopup="true"
 							onClick={handleProfileMenuOpen}
 							color="inherit"
 						>
 							<AccountCircle />
 						</IconButton>
+						) : (
+							<Link href={'/login'}>
+								<Button variant='outlined' className='text-white border-white'>Login</Button>
+							</Link>
+						)}
 					</Box>
 					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
 						<IconButton

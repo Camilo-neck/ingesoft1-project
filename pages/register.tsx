@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState } from 'react'
 // Firebase imports
 import { auth } from 'config/firebase'
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, UserInfo, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, UserInfo, signInWithEmailAndPassword, Auth } from 'firebase/auth'
 // Material UI imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -17,6 +17,7 @@ import BackpackIcon from '@mui/icons-material/Backpack';
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 import Link from 'next/link';
 import { ButtonGroup, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import Router, { useRouter } from 'next/router';
 
 const Register = () => {
 	const [name, setName] = useState('')
@@ -28,6 +29,7 @@ const Register = () => {
 	const [loginEmail, setLoginEmail] = useState('')
 	const [loginPassword, setLoginPassword] = useState('')
 	const [user, setUser] = useState<UserInfo | null>(null)
+	const router = useRouter()
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value)
@@ -49,19 +51,18 @@ const Register = () => {
 		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in 
-				var user = userCredential.user;
-				setUser(user)
+				handleLoginEmail(auth, email, password)
 				// ...
 			})
 			.catch((error) => {
-				var errorCode = error.code;
-				var errorMessage = error.message;
+				const errorCode = error.code;
+				const errorMessage = error.message;
 				// ..
 			});
 	}
 
-	const handleLoginEmail = () => {
-		signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+	const handleLoginEmail = (auth: Auth, email: string, password: string) => {
+		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
 				var user = userCredential.user;
@@ -97,6 +98,15 @@ const Register = () => {
 			.then(() => {
 				setUser(null)
 			})
+	}
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		handleRegisterEmail()
+		setName('')
+		setEmail('')
+		setPassword('')
+		Router.push('/')
 	}
 
 	return (
@@ -172,7 +182,7 @@ const Register = () => {
 							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Crear cuenta con Facebook</Button>
 						</div>
 						<p className='text-gray-500 text-center'>-OR-</p>
-						<form className='flex flex-col gap-4 justify-items-start'>
+						<form className='flex flex-col gap-4 justify-items-start' onSubmit={handleSubmit}>
 							<TextField
 								value={name}
 								onChange={(e) => setName(e.target.value)}
@@ -218,10 +228,11 @@ const Register = () => {
 								className='self-center py-2 text-black font-semibold bg-[#D5DFF6] hover:bg-[#c6d6fa] rounded-md'
 								fullWidth
 								color='secondary'
+								type='submit'
 							>
 								Registrarse
 							</Button>
-							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='#'>
+							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='/login'>
 								¿Ya tienes cuenta? Iniciar sesión
 							</Link>
 						</form>
