@@ -79,27 +79,30 @@ const viewProfile: NextPage = () => {
                         {userData.tipoUsuario!=='Estudiante' ? 
                         <div className="mt-4">
                             <p className='text-2xl md:text-4xl font-bold leading-none mb-3'>Chazas registradas</p>
-                            {userData.chazas.map((chaza: any, index: number) => ( 
-                                <div key={index} className='w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
-                                    <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50  transition-all ease-linear duration-200 h-full w-full">
-                                        <Link href={`/chaza/${chaza.id}`}>
-                                            <div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
-                                                <div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
-                                                    <div className='w-6 h-6 rounded-full bg-red-600'></div>
-                                                    <div className='flex flex-col'>
-                                                        <p className='text-white font-semibold'>{chaza.nombre}</p>
-                                                        
-                                                    </div>
-                                                    <div className='flex flex-row items-center p-1 rounded-md bg-[#FB850054]'>
-                                                        <StarRoundedIcon className='text-[#FB8500]' />
-                                                        <p className='text-white text-sm font-semibold'>{chaza.calificacion.toFixed(1)}</p>
+                            <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto'>
+                                {userData.chazas.map((chaza: any, index: number) => ( 
+                                    <div key={index} className='w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
+                                        <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50  transition-all ease-linear duration-200 h-full w-full">
+                                            <Link href={`/chaza/${chaza.id}`}>
+                                                <div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
+                                                    <div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
+                                                        <div className='w-6 h-6 rounded-full bg-red-600'></div>
+                                                        <div className='flex flex-col'>
+                                                            <p className='text-white font-semibold'>{chaza.nombre}</p>
+                                                            
+                                                        </div>
+                                                        <div className='flex flex-row items-center p-1 rounded-md bg-[#FB850054]'>
+                                                            <StarRoundedIcon className='text-[#FB8500]' />
+                                                            <p className='text-white text-sm font-semibold'>{chaza.calificacion.toFixed(1)}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </Link>
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                            
                         </div>
                         
                         :<p/>}
