@@ -35,7 +35,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 
 	return (
 		<Layout>
-			<div className="p-3 m-1 w-full">
+			<div className="p-3 m-1">
 				<p className='font-semibold text-xl self-start'>Categorías</p>
 				<CSliderOfCards categories={props.categories} />
 			</div>
