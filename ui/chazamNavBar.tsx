@@ -223,7 +223,7 @@ export default function CNavBar() {
 						/>
 					</Search>
 					{/* <Box sx={{ width: '2rem' }} /> */}
-					<Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '2rem' }}>
+					<Box sx={{ display: { md: 'flex' }, marginLeft: '2rem' }}>
 						{/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
 							<Badge badgeContent={4} color="error">
 								<MailIcon />
@@ -246,29 +246,30 @@ export default function CNavBar() {
 							onClick={handleProfileMenuOpen}
 							color="inherit"
 						>
-							<AccountCircle />
+							{/* <AccountCircle /> */}
+							<Image className='rounded-full' src={currentUser.photoURL ? currentUser.photoURL : '/images/blank-profile-picture.webp'} alt='photo' width={30} height={30}/>
 						</IconButton>
 						) : (
-							<Link href={'/login'}>
-								<Button variant='outlined' className='text-white border-white'>Login</Button>
+							<Link href={'/login'} className="text-slate-800 flex flex-row gap-2">
+								<AccountCircle />
+								<span className='hidden lg:block'>Autenticarse</span>
 							</Link>
 						)}
 					</Box>
-					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+					{/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
 						<IconButton
 							size="large"
 							aria-label="show more"
 							aria-controls={mobileMenuId}
 							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
+							onClick={handleProfileMenuOpen}
 							color="inherit"
 						>
-							<MoreIcon />
+							<AccountCircle />
 						</IconButton>
-					</Box>
+					</Box> */}
 				</Toolbar>
 			</AppBar>
-			{renderMobileMenu}
 			{renderMenu}
 		</Box>
 	);
