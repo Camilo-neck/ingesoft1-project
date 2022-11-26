@@ -37,11 +37,11 @@ const ButtonCust = styled(Button)({
 const ModalChaza = ({
     open,
     onClose,
-    
+    add,
   }: {
     open: boolean;
     onClose: () => void;
-    
+    add: boolean;
   }) => {
     if (!open) return null;
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -69,7 +69,7 @@ const ModalChaza = ({
           >
             <CancelIcon sx={{ color: red[500], fontSize: 25 }} />
           </IconButton>
-          <p className="text-4xl font-medium leading-none justify-self-center mr-5">Añadir Chaza</p>
+          <p className="text-4xl font-medium leading-none justify-self-center mr-5">{(add)? "Añadir":"Editar"} Chaza</p>
           <p className="md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5">Datos de la chaza</p>
           <Box
             component="form"
@@ -113,7 +113,7 @@ const ModalChaza = ({
           </Box>
           <MultipleSelect chaza={(false)} report={(false)}/>
           <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
-            <ButtonCust variant="contained">Agregar chaza</ButtonCust>
+            <ButtonCust variant="contained">{(add)? "Añadir":"Editar"} chaza</ButtonCust>
           </Stack>
         </div>
       </div>
