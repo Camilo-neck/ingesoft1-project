@@ -37,11 +37,13 @@ const ButtonCust = styled(Button)({
 const ModalReport = ({
   open,
   onClose,
-  chaza
+  chaza,
+  report
 }: {
   open: boolean;
   onClose: () => void;
   chaza: boolean;
+  report: boolean;
 }) => {
   if (!open) return null;
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -72,7 +74,7 @@ const ModalReport = ({
         </IconButton>
         <p className="text-4xl font-medium leading-none justify-self-center mr-5">Reportar {(chaza)? "chaza":"comentario"}</p>
         <p className="text-2xl font-medium leading-none mt-3 mr-5">Causa del reporte</p>
-        <MultipleSelect chaza={chaza}/>
+        <MultipleSelect chaza={chaza} report={report}/>
         <p className="text-2xl font-medium leading-none mt-3 mr-5">Detalles del reporte</p>
         <Box
           component="form"

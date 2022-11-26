@@ -84,7 +84,7 @@ function ProfileData({nombreChaza, description,location,tel,days,schedule, categ
                 <p className="text-base font-semibold">Reportar</p>
                 
             </Button>   
-            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(true)}/>
+            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(true)} report={(true)}/>
         </div>
 
     </div>
