@@ -17,6 +17,7 @@ import BackpackIcon from '@mui/icons-material/Backpack';
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 import Link from 'next/link';
 import { ButtonGroup, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const Login = () => {
 	const [name, setName] = useState('')
@@ -28,6 +29,7 @@ const Login = () => {
 	const [loginEmail, setLoginEmail] = useState('')
 	const [loginPassword, setLoginPassword] = useState('')
 	const [user, setUser] = useState<UserInfo | null>(null)
+	const router = useRouter()
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value)
@@ -61,7 +63,7 @@ const Login = () => {
 	}
 
 	const handleLoginEmail = () => {
-		signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
 				var user = userCredential.user;
@@ -97,6 +99,12 @@ const Login = () => {
 			.then(() => {
 				setUser(null)
 			})
+	}
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		handleLoginEmail()
+		router.push('/')
 	}
 
 	return (
@@ -172,14 +180,7 @@ const Login = () => {
 							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Iniciar sesión con Facebook</Button>
 						</div>
 						<p className='text-gray-500 text-center'>-OR-</p>
-						<form className='flex flex-col gap-4 justify-items-start'>
-							<TextField
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								id="name-input"
-								fullWidth
-								label=" Correo electrónico"
-								variant="standard" />
+						<form className='flex flex-col gap-4 justify-items-start' onSubmit={handleSubmit}>
 							<TextField
 								error={emailError}
 								value={email}
@@ -187,17 +188,28 @@ const Login = () => {
 								id="email-input"
 								type='email'
 								fullWidth
-								label="Contraseña"
+								label="Email"
 								variant="standard"
 								helperText={emailError && 'Ingrese un correo correcto'} />
+							<TextField
+								error={passwordError}
+								value={password}
+								onChange={handlePasswordChange}
+								id="pass-input"
+								type='password'
+								fullWidth
+								label="Contraseña"
+								variant="standard"
+								helperText={passwordError && 'Mínimo ocho caractéres, al menos una letra mayúscula,\n\n una letra minúscula y un número'} />
 							<Button
 								className='self-center py-2 text-black font-semibold bg-[#D5DFF6] hover:bg-[#c6d6fa] rounded-md'
 								fullWidth
 								color='secondary'
+								type='submit'
 							>
 								Iniciar sesión
 							</Button>
-							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='#'>
+							<Link className='text-sm text-gray-600 font-light no-underline hover:underline ' href='/register'>
 								No tienes cuenta? Registrate
 							</Link>
 						</form>
