@@ -43,9 +43,7 @@ const ButtonCust = styled(Button)({
     '&:focus': {
       boxShadow: '0 0 0 0.2rem rgba(237, 197, 47 ,.5)',
     },
-  });
-
-const userData = {
+  });let userData = {
     nombre : 'Usuario 1',
     tipoUsuario: 'Chacero',
     correo: 'prodriguez1@unal.edu.co',
@@ -71,7 +69,7 @@ const userData = {
 const editProfile = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [open, setOpen] = React.useState(false);
-    const [openModal, setOpenModal] = useState(false)
+    const [add, setAdd] = useState(false);
     const [openModalChaza, setOpenModalChaza] = useState(false)
     return (
         <div>
@@ -111,8 +109,11 @@ const editProfile = () => {
                             <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto'>
                                 {userData.chazas.map((chaza: any, index: number) => ( 
                                     <div key={index} className='w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
-                                        <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50  transition-all ease-linear duration-200 h-full w-full grid grid-rows-4">
-                                            <p className='text-xl mt-5 row-span-3 w-full h-full hover:z-10 text-center flex flex-col items-center justify-center opacity-0 hover:opacity-100 text-white font-semibold'>Editar chaza</p>
+                                        <div onClick={() => setOpenModalChaza(true)}  className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50  transition-all ease-linear duration-200 h-full w-full grid grid-rows-4">
+                                        
+                                        <ModalChaza open={openModalChaza} onClose={()=> 
+                                        setOpenModalChaza(false)} add={add}/> 
+                                            <p onClick={() => setAdd(false)}className='text-xl mt-5 row-span-3 w-full h-full hover:z-10 text-center flex flex-col items-center justify-center opacity-0 hover:opacity-100 text-white font-semibold'>Editar chaza</p>
                                             <Link href={`/chaza/${chaza.id}`} className='row-span-1'>
                                                 
                                                 <div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
@@ -136,9 +137,9 @@ const editProfile = () => {
                                     
                                 ))}
                                 <IconButton onClick={() => setOpenModalChaza(true)} title="Añadir chaza" size="large" color="primary" aria-label="Añadir chaza" className='self-center'>
-                                    <AddCircleIcon />
+                                    <AddCircleIcon onClick={() => setAdd(true)}/>
                                 </IconButton>
-                                <ModalChaza open={openModalChaza} onClose={()=> setOpenModalChaza(false)}/>    
+                                <ModalChaza open={openModalChaza} onClose={()=> setOpenModalChaza(false)} add={add}/>    
                             </div>
                             
                         
