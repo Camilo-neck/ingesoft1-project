@@ -63,7 +63,7 @@ function Comment({userName, userPhoto, grade, date,comment}:{userName:string, us
             <IconButton onClick={() => setOpenModal(true)} color="secondary" aria-label="add an alarm">
                 <ErrorOutlineIcon sx={{ color: red[500] }}/>
             </IconButton> 
-            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(false)}/>
+            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(false)} report={(true)}/>
             </div>
         </div>
     </div>

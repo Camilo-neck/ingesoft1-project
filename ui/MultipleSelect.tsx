@@ -16,7 +16,18 @@ const causesComment = [
     'Mencion a una persona',
     'Otra'
 ]
-export default function SelectAutoWidth({chaza}:{chaza:boolean}) {
+const categories = [
+    'Mercado',
+    'Viveros',
+    'Comida',
+    'Comida rápida',
+    'Ropa',
+    'Bisuteria',
+    'Papeleria',
+    'Otros'
+]
+
+export default function SelectAutoWidth({chaza,report}:{chaza:boolean, report:boolean}) {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -26,7 +37,7 @@ export default function SelectAutoWidth({chaza}:{chaza:boolean}) {
   return (
     <div className='w-9/12 '>
       <FormControl className='m-1 mt-3 w-11/12'>
-        <InputLabel id="demo-simple-select-autowidth-label">Causa</InputLabel>
+        <InputLabel id="demo-simple-select-autowidth-label">{(report)? 'Causa':'Categoría'}</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"
@@ -39,7 +50,7 @@ export default function SelectAutoWidth({chaza}:{chaza:boolean}) {
             <MenuItem value="">
             <em>Ninguna</em>
           </MenuItem>
-          {((chaza)? causesChaza:causesComment).map((cause) => (
+          {((!report)? categories:((chaza)? causesChaza:causesComment)).map((cause) => (
             <MenuItem
               key={cause}
               value={cause}
