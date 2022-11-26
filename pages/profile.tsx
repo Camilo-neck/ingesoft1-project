@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import {deepPurple } from '@mui/material/colors';
 import Link from "next/link";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const ButtonCust = styled(Button)({
     boxShadow: 'none',
@@ -36,7 +37,7 @@ const ButtonCust = styled(Button)({
     },
   });
 const userData = {
-    nombre : 'Usuario 1',
+    nombre : 'Pablo Rodriguez',
     tipoUsuario: 'Chacero',
     correo: 'prodriguez1@unal.edu.co',
     foto: '/man.png',
@@ -57,7 +58,7 @@ const userData = {
         },
     ],
 }
-const viewProfile: NextPage = () => {
+const Profile: NextPage = () => {
 	return (
         <div>
             <CNavBar />
@@ -79,10 +80,10 @@ const viewProfile: NextPage = () => {
                         {userData.tipoUsuario!=='Estudiante' ? 
                         <div className="mt-4">
                             <p className='text-2xl md:text-4xl font-bold leading-none mb-3'>Chazas registradas</p>
-                            <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto'>
+                            <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto p-2'>
                                 {userData.chazas.map((chaza: any, index: number) => ( 
                                     <div key={index} className='w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
-                                        <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50  transition-all ease-linear duration-200 h-full w-full">
+                                        <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50 transition-all ease-linear duration-300 h-full w-full">
                                             <Link href={`/chaza/${chaza.id}`}>
                                                 <div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
                                                     <div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
@@ -101,6 +102,9 @@ const viewProfile: NextPage = () => {
                                         </div>
                                     </div>
                                 ))}
+                                <div title='Añadir Chaza' onClick={() => console.log("add chaza")} className='w-60 h-60 flex items-center justify-center rounded-lg outline-dashed outline-2 outline-yellow-500 hover:scale-105 transition all ease-linear duration-300'>
+                                    <AddCircleOutlineIcon fontSize='large' className='text-yellow-500' />
+                                </div>
                             </div>
                             
                         </div>
@@ -109,7 +113,9 @@ const viewProfile: NextPage = () => {
                         
                         <div className='flex justify-end mb-4 '>
                             <Stack spacing={2} direction="row" className='mt-4 mr-5'>
-                                <ButtonCust variant="contained">Editar datos</ButtonCust>
+                                <Link href={'/editProfile'}>
+                                    <ButtonCust variant="contained">Editar datos</ButtonCust>
+                                </Link>
                             </Stack>
                         </div>
                     </div>
@@ -123,4 +129,4 @@ const viewProfile: NextPage = () => {
 		
 	)
 }
-export default viewProfile
+export default Profile
