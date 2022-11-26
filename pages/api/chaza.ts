@@ -43,7 +43,7 @@ export default async function handler(
 	try {
 		const query = req.query
 		console.log(query.nombre)
-		const response = await fetch(`http://127.0.0.1:5000/chaza/?categoria=${query.categoria}`, {
+		const response = await fetch(`http://127.0.0.1:5000/chaza/?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

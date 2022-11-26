@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { auth } from 'config/firebase'
 import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 import Button from '@mui/material/Button';
+import { useRouter } from 'next/router';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -70,6 +71,8 @@ export default function CNavBar() {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
 		React.useState<null | HTMLElement>(null);
+	const [search, setSearch] = React.useState<string>('');
+	const router = useRouter();
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -91,25 +94,29 @@ export default function CNavBar() {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
 
+	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
+		if (search === '') {
+			return;
+		}
+		router.push(`/catalog?nombre=${search}`);
+	}
+
 	const authState = (currauth: Auth) =>  onAuthStateChanged(currauth, (user) => {
-		console.log('in onAuthStateChanged');
 		if (user) {
 			// User is signed in, see docs for a list of available properties
 			// https://firebase.google.com/docs/reference/js/firebase.User
 			const curruser = user;
 			setCurrentUser(curruser);
-			console.log(curruser)
 			// ...
 		} else {
 			// User is signed out
 			// ...
 			setCurrentUser(null);
-			console.log('no user')
 		}
 	});
 
 	React.useEffect(() => {
-		console.log('start')
 		authState(auth);
 	}, [auth, authState]);
 
@@ -211,17 +218,21 @@ export default function CNavBar() {
 					</Typography>
 					</Link>
 					
-					<Search className='flex-grow rounded-xl'>
-						<SearchIconWrapper>
-							<SearchIcon className='text-gray-700'/>
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							className='w-full'
-							inputProps={{ 'aria-label': 'search'}}
-							sx= {{color: 'rgb(55, 65, 81)', borderRadius: '15px'}}
-						/>
-					</Search>
+					<form className='flex-grow' onSubmit={(e: any) => handleSearch(e)}>
+						<Search className='rounded-xl'>
+							<SearchIconWrapper>
+								<SearchIcon className='text-gray-700'/>
+							</SearchIconWrapper>
+							<StyledInputBase
+								placeholder="Search…"
+								className='w-full'
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								inputProps={{ 'aria-label': 'search'}}
+								sx= {{color: 'rgb(55, 65, 81)', borderRadius: '15px'}}
+							/>
+						</Search>
+					</form>
 					{/* <Box sx={{ width: '2rem' }} /> */}
 					<Box sx={{ display: { md: 'flex' }, marginLeft: '2rem' }}>
 						{/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">

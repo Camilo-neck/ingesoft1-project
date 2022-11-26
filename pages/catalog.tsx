@@ -24,13 +24,13 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 	
 	useEffect(() => {
 		console.log('in')
-		const fetchChz = async (category: string | string[] | undefined) => {
+		const fetchChz = async (category: string | string[] | undefined, nombre: string | string[] | undefined) => {
 			console.log(category);
-			const res = await fetch(`http://localhost:3000/api/chaza?categoria=${category}`);
+			const res = await fetch(`http://localhost:3000/api/chaza?${category ? 'categoria='+category : 'categoria=Todas'}${nombre ? '&nombre='+nombre : ''}`);
 			const data = await res.json();
 			setChazas(data)
 		}
-		fetchChz(router.query.categoria)
+		fetchChz(router.query.categoria, router.query.nombre)
 	}, [router.query.categoria])
 
 	return (
@@ -110,7 +110,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const query = context.query
 	console.log(query)
-	const chazas = await fetch(`http://127.0.0.1:5000/chaza?categoria=${query.categoria ? query.categoria : 'Todas'}`)
+	const chazas = await fetch(`http://127.0.0.1:5000/chaza?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	const categories = await fetch('http://127.0.0.1:3000/api/categories')
