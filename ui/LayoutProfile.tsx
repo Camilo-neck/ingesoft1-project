@@ -38,7 +38,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
 			<main className="">
                 <div className="flex flex-column gap-6">
                     <div className=" basis-1/5 sm:w-1/2 bg-white shadow-xl border border-gray-400">
-                        <ProfileData nombreChaza={chaza.nombre} description ={chaza.descripcion} location={chaza.ubicacion} tel={chaza.telefono} days={profileData.days} schedule ={chaza.horario} categories={chaza.categorias} img={profileData.avatar} photos={profileData.photos}/>
+                        <ProfileData uid={chaza.uid} nombreChaza={chaza.nombre} description ={chaza.descripcion} location={chaza.ubicacion} tel={chaza.telefono} days={profileData.days} schedule ={chaza.horario} categories={chaza.categorias} img={profileData.avatar} photos={profileData.photos}/>
                     </div>
                     <div className="mt-6 mb-6 basis-4/5 sm:w-1/2 bg-white overflow-auto scrollbar-hide">
                         <ProfileRatings meanGrade={chaza.calificacion.toFixed(1)} raitings={profileRaitings.raitings}/>
