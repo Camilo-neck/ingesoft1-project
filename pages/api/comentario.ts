@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
 
-type Comment = {
-	chazaId: string,
-	estrellas: number | null,
-	contenido: string,
-	fecha: Date,
-	upvotes: number,
-	usuario: string
+type Chaza = {
+	calificacion: number;
+	categorias: string[];
+	id: string;
+	nombre: string;
+	telefono: number;
+	ubicacion: string;
+	urlImagen: string;
 }
 
 const cors = Cors({
@@ -17,7 +18,7 @@ const cors = Cors({
 	],
 })
 
-function runMiddleware(req: NextApiRequest, res: NextApiResponse<Comment[]>, fn: {
+function runMiddleware(req: NextApiRequest, res: NextApiResponse<Chaza[]>, fn: {
 	(req: Cors.CorsRequest, res: {
 		statusCode?: number | undefined; setHeader(key: string, value: string): any; end(): any;
 	}, next: (err?: any) => any): void; (arg0: any, arg1: any, arg2: (result: unknown) => void): void;
@@ -36,23 +37,24 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse<Comment[]>, fn:
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<Comment[]>
+	res: NextApiResponse<Chaza[]>
 ) {
 	await runMiddleware(req, res, cors)
 	try {
-		const body = req.body
-		console.log('Body:')
-		console.log(body)
-		const response = await fetch(`http://127.0.0.1:5000/comentario/add`, {
-			method: 'POST',
+		const query = req.query
+		console.log(query.comentario)
+		const response = await fetch(`http://127.0.0.1:5000/comentario/${query.comentario}`, {
+			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(body)
+			// body: JSON.stringify({
+			// 	"teacher":"Leonid Lebedev"
+			// })
 		}).then(res => res.json())
 			.catch(err => console.log(err))
 		console.log(JSON.stringify(response))
-		return res.status(200).json(response);
+		return res.status(200).json(JSON.parse(JSON.stringify(response)));
 	} catch (error) {
 		console.log("error");
 	}

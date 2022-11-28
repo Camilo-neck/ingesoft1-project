@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';
-import { useState } from 'react';
 
 const ButtonCust = styled(Button)({
     boxShadow: 'none',
@@ -45,11 +44,10 @@ const ButtonCust = styled(Button)({
     onClose: () => void;
     uid: string;
   }) => {
-    if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState('Controlled');
     const [rating, setRating] = useState<number | null>(0);
     const [comment, setComment] = useState('');
+    if (!open) return null;
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
@@ -66,6 +64,7 @@ const ButtonCust = styled(Button)({
         upvotes: 0,
         usuario: '1234567'
       }
+      console.log(comentario);
       const response = fetch('http://localhost:3000/api/createComment', {
         method: 'POST',
         headers: {
