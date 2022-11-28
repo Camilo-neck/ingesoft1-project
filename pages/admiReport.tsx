@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import { blue } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Report from "@/ui/Report"
+import Link from 'next/link';
 
 const reports = [
     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'},
@@ -16,7 +17,7 @@ const reports = [
     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation '},
 
 ]
-const admi = () => {
+const admiReport = () => {
     return (
         <div>
             <CNavBar/>
@@ -26,13 +27,19 @@ const admi = () => {
                         <div className='h-auto grid justify-center gap-5'>
                             <Avatar 
                                 sx={{ bgcolor: blue[500] , width: 80, height: 80 }} 
-                                alt='Admi'
+                                alt='admiReport'
                                 src= '/man.png'
                                 className="justify-self-center mt-10"
                             />
                             <p className="text-xl md:ml-4 font-bold leading-none">Administrador</p>
-                            <Button className='m-2' variant="outlined">Ver reportes</Button>
-                            <Button className='m-2' variant="outlined">Ver estadisticas</Button>
+                            
+                            <Link href={'/admiReport'}>
+                                <Button className='m-2 w-10/12' variant="outlined">Ver reportes</Button>
+                            </Link>
+                            <Link href={'/admiStat'}>
+                                <Button className='m-2 w-10/12' variant="outlined">Ver estadisticas</Button>
+                            </Link>
+                            
                         </div>
                         
                     </div>
@@ -56,4 +63,4 @@ const admi = () => {
 
 }
 
-export default admi
+export default admiReport
