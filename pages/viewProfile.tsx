@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import Layout from '@/ui/Layout'
-import Banner from '@/ui/Banner'
+import PieChart from '@/ui/PieChart';
+import * as React from 'react';
 import CNavBar from "@/ui/chazamNavBar"
 import Footer from "@/ui/Footer"
 import Avatar from '@mui/material/Avatar';
@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import {deepPurple } from '@mui/material/colors';
 import Link from "next/link";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-
+import ModalStat from '@/ui/ModalStat';
 
 const ButtonCust = styled(Button)({
     boxShadow: 'none',
@@ -38,7 +38,7 @@ const ButtonCust = styled(Button)({
   });
 const userData = {
     nombre : 'Usuario 1',
-    tipoUsuario: 'Estudiante',
+    tipoUsuario: 'Chacero',
     correo: 'prodriguez1@unal.edu.co',
     foto: '/man.png',
     chazas : [
@@ -59,11 +59,14 @@ const userData = {
     ],
 }
 const viewProfile: NextPage = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [openModalStat, setOpenModalStat] = React.useState(false)
 	return (
         <div>
             <CNavBar />
             <main>
                 <div className='h-full flex justify-center items-center'>
+                    
                     <div className="bg-gray-50 bg-opacity-30 mt-24 mb-24 shadow rounded-3xl w-11/12 md:w-9/12  p-10" >
                         <div className='grid grid-cols-4'>
                             <Avatar sx={{ bgcolor: deepPurple[300], width: 86, height: 86 }} alt="Remy Sharp" src={userData.foto} className='col-span-4 md:col-span-1 mt-4 grid justify-self-center'/>
@@ -102,6 +105,7 @@ const viewProfile: NextPage = () => {
                                         </div>
                                     </div>
                                 ))}
+                                
                             </div>
                             
                         </div>
@@ -110,6 +114,10 @@ const viewProfile: NextPage = () => {
                         
                         <div className='flex justify-end mb-4 '>
                             <Stack spacing={2} direction="row" className='mt-4 mr-5'>
+                                {userData.tipoUsuario!=='Estudiante' ?
+                                    <><ButtonCust onClick={() => setOpenModalStat(true)} variant="contained">Ver estadísticas</ButtonCust>
+                                    <ModalStat open={openModalStat} onClose={() => setOpenModalStat(false)} /></>    
+                                :<p/>}
                                 <Link href={'/editProfile'}>
                                     <ButtonCust variant="contained">Editar datos</ButtonCust>
                                 </Link>

@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import BarChart from '@/ui/BarChart';
 import Link from 'next/link';
 
+
 const admiStat = () => {
     return (
         <div>

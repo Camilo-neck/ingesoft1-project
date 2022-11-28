@@ -1,37 +1,22 @@
 import { ResponsivePie } from "@nivo/pie";
 
-
 const data = [
     {
-      id: "hack",
-      label: "hack",
-      value: 239,
-      color: "hsl(104, 70%, 50%)",
-    },
-    {
-      id: "make",
-      label: "make",
-      value: 170,
-      color: "hsl(162, 70%, 50%)",
-    },
-    {
-      id: "go",
-      label: "go",
+      id: "Neutros",
+      label: "Neutros",
       value: 322,
-      color: "hsl(291, 70%, 50%)",
-    },
+    }, 
     {
-      id: "lisp",
-      label: "lisp",
-      value: 503,
-      color: "hsl(229, 70%, 50%)",
-    },
+        id: "Negativos",
+        label: "Negativos",
+        value: 170,
+      },
     {
-      id: "scala",
-      label: "scala",
-      value: 584,
-      color: "hsl(344, 70%, 50%)",
-    },
+        id: "Positivos",
+        label: "Positivos",
+        value: 58,
+        color: "#61cdbb"
+      }
   ];
 
 const PieChart = () => {
@@ -40,17 +25,18 @@ const PieChart = () => {
     <ResponsivePie
       data={data}
       
-      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      margin={{ top: 50, right: 50, bottom: 100, left: 50 }}
       innerRadius={0.5}
       padAngle={0.7}
-      cornerRadius={3}
-      activeOuterRadiusOffset={8}
+      cornerRadius={2}
+      colors={{ scheme: 'nivo' }}
+      activeOuterRadiusOffset={5}
       borderColor={{
         from: "color",
         modifiers: [["darker", 0.2]],
       }}
       arcLinkLabelsSkipAngle={10}
-      
+      arcLinkLabelsTextColor={"rgb(0, 0, 0)"}
       arcLinkLabelsThickness={2}
       arcLinkLabelsColor={{ from: "color" }}
       enableArcLabels={false}
