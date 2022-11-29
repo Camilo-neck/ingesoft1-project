@@ -49,8 +49,22 @@ const Register = () => {
 
 	const handleRegisterEmail = () => {
 		createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
+			.then(async (userCredential) => {
 				// Signed in 
+				await fetch(`http://127.0.0.1:3000/api/createUser`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						uid: userCredential.user.uid,
+						nombre: name,
+						correo: email,
+						tipoUsuario: role,
+						urlFotoPerfil: userCredential.user.photoURL ? userCredential.user.photoURL : '',
+						chazasPropias: role==='chacero' ? [] : undefined,
+					})
+				})
 				handleLoginEmail(auth, email, password)
 				// ...
 			})
@@ -214,11 +228,11 @@ const Register = () => {
 								<hr className='border mb-1'/>
 								<label className='font-semibold text-gray-800'>Seleccione su Rol</label>
 								<ToggleButtonGroup className='self-center' color='secondary' exclusive onChange={handleRoleChange} value={role}>
-									<ToggleButton value='student' sx={{borderRadius: '4rem'}}>
+									<ToggleButton value='estudiante' sx={{borderRadius: '4rem'}}>
 										<BackpackIcon />
 										Estudiante
 									</ToggleButton>
-									<ToggleButton value='seller' sx={{borderRadius: '4rem'}}>
+									<ToggleButton value='chacero' sx={{borderRadius: '4rem'}}>
 										<StoreMallDirectoryIcon />
 										Chacero
 									</ToggleButton>

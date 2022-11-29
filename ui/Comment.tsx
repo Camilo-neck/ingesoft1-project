@@ -33,8 +33,17 @@ const UpVotesButton = styled(Button)({
     
   });
 
-function Comment({userName, userPhoto, grade, date,comment}:{userName:string, userPhoto:string, grade:number, date:string,comment:string}) {
+function Comment({userName, userPhoto, grade, date,comment, upvotes}:{userName:string, userPhoto:string, grade:number, date:string,comment:string, upvotes:number}) {
   const [openModal, setOpenModal] = useState(false)
+
+  const formatDate = (date: string) => {
+    const dateObj = new Date(date);
+    const month = dateObj.toLocaleString('es', { month: 'long' });
+    const day = dateObj.getDate();
+    const year = dateObj.getFullYear();
+    return `${day} de ${month} de ${year}`;
+  };
+
   return (
     <div className='w-full flex justify-center mt-4'>
         <div className="w-11/12 bg-white border border-gray-300 p-3">
@@ -42,7 +51,7 @@ function Comment({userName, userPhoto, grade, date,comment}:{userName:string, us
                 <Avatar 
                     sx={{ bgcolor: blue[500] , width: 32, height: 32 }} 
                     alt={userName} 
-                    src= {userPhoto}
+                    src= {userPhoto !== "" || userPhoto !== undefined ? userPhoto : "/man.png"}
                     className=""
                 />
                 <p className="text-sm font-semibold leading-none">{userName} </p>
@@ -52,13 +61,13 @@ function Comment({userName, userPhoto, grade, date,comment}:{userName:string, us
                 <Stack spacing={1} className="">
                     <Rating name="half-rating-read" defaultValue={grade} precision={0.5} readOnly />
                 </Stack>
-                <p className="text-sm font-light leading-none" >{date}</p>
+                <p className="text-sm font-light leading-none" >{formatDate(date)}</p>
             </div>
             <p className="text-base font-light leading-none text-justify">{comment}</p>
             <div className="mt-2 flex flex-nowrap items-center flex justify-between">
                 
             <UpVotesButton variant="contained" startIcon={<ThumbUpOffAltIcon />}>
-                15 upvotes
+                {upvotes} upvotes
             </UpVotesButton>
             <IconButton onClick={() => setOpenModal(true)} color="secondary" aria-label="add an alarm">
                 <ErrorOutlineIcon sx={{ color: red[500] }}/>

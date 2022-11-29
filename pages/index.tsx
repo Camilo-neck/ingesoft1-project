@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 
 const fetchCat = async () => {
-	const res = await fetch('http://localhost:3000/api/categoria');
+	const res = await fetch('http://127.0.0.1:3000/api/categoria');
 	const data = await res.json();
 	console.log(data);
 }

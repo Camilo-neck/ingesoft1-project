@@ -38,11 +38,15 @@ const ButtonCust = styled(Button)({
   const ModalRating = ({
     open,
     onClose,
-    uid
+    uid,
+    cid,
+    onComment,
   }: {
     open: boolean;
     onClose: () => void;
+    onComment: (comentario: any) => void;
     uid: string;
+    cid: string;
   }) => {
     const [value, setValue] = useState('Controlled');
     const [rating, setRating] = useState<number | null>(0);
@@ -53,25 +57,22 @@ const ButtonCust = styled(Button)({
       setValue(event.target.value);
     };
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       // eslint-disable-next-line no-console
       const comentario = {
-        chazaId: uid,
+        chazaId: cid,
         estrellas: rating,
         contenido: comment,
         fecha: new Date(),
         upvotes: 0,
-        usuario: '1234567'
+        usuario: uid
       }
       console.log(comentario);
-      const response = fetch('http://localhost:3000/api/createComment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(comentario)
-      })
+      onComment(comentario);
+      setRating(0);
+      setComment('');
+      onClose();
     }
   
     return (
@@ -89,7 +90,7 @@ const ButtonCust = styled(Button)({
           <IconButton
             color="secondary"
             aria-label="add an alarm"
-            onClick={onClose}
+            onClick={() => {onClose(); setRating(0); setComment('');}}
             className ='justify-self-end mr-2'
           >
             <CancelIcon sx={{ color: red[500], fontSize: 25 }} />
@@ -116,11 +117,12 @@ const ButtonCust = styled(Button)({
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 className="w-11/12 m-1 mt-3"
+                disabled={rating === 0}
               />  
             </div>
           </Box>
           <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
-            <ButtonCust type='submit' variant="contained">Finalizar calificación</ButtonCust>
+            <ButtonCust type='submit' variant="contained" disabled={rating === 0}>Finalizar calificación</ButtonCust>
           </Stack>
         </form>
       </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import  Image  from 'next/image';
+import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -102,7 +102,7 @@ export default function CNavBar() {
 		router.push(`/catalog?nombre=${search}`);
 	}
 
-	const authState = (currauth: Auth) =>  onAuthStateChanged(currauth, (user) => {
+	const authState = (currauth: Auth) => onAuthStateChanged(currauth, (user) => {
 		if (user) {
 			// User is signed in, see docs for a list of available properties
 			// https://firebase.google.com/docs/reference/js/firebase.User
@@ -136,11 +136,11 @@ export default function CNavBar() {
 			}}
 			open={isMenuOpen}
 			onClose={handleMenuClose}
-		>	
-			<Link href={'/viewProfile'}>
+		>
+			<Link href={`/user/${currentUser?.uid}`}>
 				<MenuItem>Profile</MenuItem>
 			</Link>
-			<MenuItem onClick={() => auth.signOut().then(() => {setCurrentUser(null); handleMenuClose()})}>Sign Out</MenuItem>
+			<MenuItem onClick={() => auth.signOut().then(() => { setCurrentUser(null); handleMenuClose(); router.push('/') })}>Sign Out</MenuItem>
 			<MenuItem onClick={handleMenuClose}>Close</MenuItem>
 		</Menu>
 	);
@@ -201,35 +201,35 @@ export default function CNavBar() {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static" className='rounded-sm'>
 				<Toolbar>
-					
+
 					<Link href={"/"}>
-					<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
+						<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
 					</Link>
 					<Link href={"/"}>
-						
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						className='font-semibold'
-						sx={{ display: { xs: 'none', sm: 'block' } }}
-					>
-						Corgis
-					</Typography>
+
+						<Typography
+							variant="h6"
+							noWrap
+							component="div"
+							className='font-semibold'
+							sx={{ display: { xs: 'none', sm: 'block' } }}
+						>
+							Corgis
+						</Typography>
 					</Link>
-					
+
 					<form className='flex-grow' onSubmit={(e: any) => handleSearch(e)}>
 						<Search className='rounded-xl'>
 							<SearchIconWrapper>
-								<SearchIcon className='text-gray-700'/>
+								<SearchIcon className='text-gray-700' />
 							</SearchIconWrapper>
 							<StyledInputBase
 								placeholder="Search…"
 								className='w-full'
 								value={search}
 								onChange={(e) => setSearch(e.target.value)}
-								inputProps={{ 'aria-label': 'search'}}
-								sx= {{color: 'rgb(55, 65, 81)', borderRadius: '15px'}}
+								inputProps={{ 'aria-label': 'search' }}
+								sx={{ color: 'rgb(55, 65, 81)', borderRadius: '15px' }}
 							/>
 						</Search>
 					</form>
@@ -250,16 +250,16 @@ export default function CNavBar() {
 							</Badge>
 						</IconButton> */}
 						{currentUser ? (
-						<IconButton
-							size="large"
-							edge="end"
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
-						>
-							{/* <AccountCircle /> */}
-							<Image className='rounded-full' src={currentUser.photoURL ? currentUser.photoURL : '/images/blank-profile-picture.webp'} alt='photo' width={30} height={30}/>
-						</IconButton>
+							<IconButton
+								size="large"
+								edge="end"
+								aria-haspopup="true"
+								onClick={handleProfileMenuOpen}
+								color="inherit"
+							>
+								{/* <AccountCircle /> */}
+								<Image className='rounded-full' src={currentUser.photoURL ? currentUser.photoURL : '/images/blank-profile-picture.webp'} alt='photo' width={30} height={30} />
+							</IconButton>
 						) : (
 							<Link href={'/login'} className="text-slate-800 flex flex-row gap-2">
 								<AccountCircle />

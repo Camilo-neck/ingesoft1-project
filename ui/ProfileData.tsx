@@ -8,14 +8,36 @@ import { blue } from '@mui/material/colors';
 import PhotosSlider from "./PhotosSlider"
 import ModalReport from './ModalReport';
 import ModalRating from './ModalRating';
+import { auth } from 'config/firebase'
+import { Auth, onAuthStateChanged, User } from 'firebase/auth';
 
-function ProfileData({uid, nombreChaza, description,location,tel,days,schedule, categories, img,photos}:{uid: string, nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categories: string[], img: string, photos: {
+function ProfileData({cid, nombreChaza, description,location,tel,days,schedule, categories, img,photos, onComment}:{cid: string, nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categories: string[], img: string, photos: {
     id: number;
     url: string;
     title: string;
-}[]}) {
+}[], onComment: (comentario: any) => void}) {
+	const [currentUser, setCurrentUser] = React.useState<User | null>(null);
     const [openModal, setOpenModal] = useState(false)
     const [openModalRate, setOpenModalRate] = useState(false)
+
+    const authState = (currauth: Auth) =>  onAuthStateChanged(currauth, (user) => {
+		if (user) {
+			// User is signed in, see docs for a list of available properties
+			// https://firebase.google.com/docs/reference/js/firebase.User
+			const curruser = user;
+			setCurrentUser(curruser);
+			// ...
+		} else {
+			// User is signed out
+			// ...
+			setCurrentUser(null);
+		}
+	});
+
+	React.useEffect(() => {
+		authState(auth);
+	}, [auth, authState]);
+
   return (
     <div className='grid justify-items-center '>
         <div className='w-full h-48 relative'>
@@ -31,11 +53,15 @@ function ProfileData({uid, nombreChaza, description,location,tel,days,schedule, 
         <p className="text-xl font-bold leading-none">{nombreChaza}</p>
         
         <div className="inline-flex space-x-1.5 items-center justify-end w-36 h-6">
-        <Stack onClick={() => setOpenModalRate(true)} spacing={1}>
+        <Stack onClick={() => {
+            if(currentUser){
+                setOpenModalRate(true)
+            }
+            }} spacing={1}>
             
             <Rating name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
         </Stack>
-        <ModalRating uid={uid} open={openModalRate} onClose={()=> setOpenModalRate(false)}/>
+        <ModalRating onComment={onComment} uid={currentUser?.uid ? currentUser?.uid : ""} cid={cid} open={openModalRate} onClose={()=> setOpenModalRate(false)}/>
         </div>
         <div className="justify-items-center inline-flex flex-col space-y-4 items-center justify-start h-5/6 m-2">
             <div className="divide-y flex flex-col space-y-4 items-start justify-end w-full h-52 pl-3 pr-4 pt-4 pb-1.5 bg-white shadow border rounded-3xl border-gray-400">
