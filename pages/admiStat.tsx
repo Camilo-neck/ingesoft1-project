@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 import CNavBar from "@/ui/chazamNavBar"
 import Footer from "@/ui/Footer"
@@ -6,9 +7,17 @@ import { blue } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import BarChart from '@/ui/BarChart';
 import Link from 'next/link';
+import { useEffect, useState } from "react";
 
-
-const admiStat = () => {
+const admiStat = (props:{comida: any[],mercado: any[], vivero:any[], comidaRapida:any[],ropa:any[],bisuteria:any[],papeleria:any[],otros:any[]}) => {
+    const [comida, setComida] = useState(props.comida);
+    const [mercado, setMercado] = useState(props.mercado);
+    const [vivero, setVivero] = useState(props.vivero);
+    const [comidaRapida, setComidaRapida] = useState(props.comidaRapida);
+    const [ropa, setRopa] = useState(props.ropa);
+    const [bisuteria, setBisuteria] = useState(props.bisuteria);
+    const [papeleria, setPapeleria] = useState(props.papeleria);
+    const [otros, setOtros] = useState(props.otros);
     return (
         <div>
             <CNavBar/>
@@ -35,7 +44,7 @@ const admiStat = () => {
                         
                     </div>
                     <div className="col-span-5 md:col-span-4 mt-6 ml-3 bg-white overflow-auto scrollbar-hide">
-                        <BarChart/>
+                        <BarChart comida={comida} mercado={mercado} vivero={vivero} comidaRapida={comidaRapida} ropa={ropa} bisuteria={bisuteria} papeleria={papeleria} otros={otros} />
                         
                     </div>
                     
@@ -45,6 +54,48 @@ const admiStat = () => {
         </div>
     )
 
+}
+
+export const getServerSideProps = async (context: { query: any; }) => {
+	const query = context.query
+	console.log(query)
+	const mercado = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Mercado`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const vivero = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Vivero`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const comida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Comida`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const comidaRapida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/ComidaRapida`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+	const ropa = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Ropa`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const bisuteria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Bisuteria`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const papeleria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Papeleria`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const otros = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Otros`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    
+        return {
+            props: {
+                comida,
+                mercado,
+                vivero,
+                comidaRapida,
+                ropa,
+                bisuteria,
+                papeleria,
+                otros,
+            }
+        }	
 }
 
 export default admiStat
