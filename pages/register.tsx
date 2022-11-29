@@ -182,6 +182,11 @@ const Register = () => {
 						SignOut
 					</button>
 				</div>
+					<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<GoogleIcon />}>Crear cuenta con Google</Button>
+							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Crear cuenta con Facebook</Button>
+						
+										<p className='text-gray-500 text-center'>-OR-</p>
+
 			</div> */}
 			<div className='flex flex-row'>
 				<div className="bg-no-repeat h-screen w-[50%] flex items-center"
@@ -189,13 +194,10 @@ const Register = () => {
 					<Image className='translate-x-44' src="/images/3d-young-woman.svg" alt='3d woman' width={500} height={500} />
 				</div>
 				<div className='bg-[#F7F8FF] flex items-center justify-center w-full rounded-lg'>
-					<div className='flex flex-col gap-12'>
+					<div className='flex flex-col gap-2'>
 						<p className='text-3xl font-bold text-center'>Crear Cuenta</p>
 						<div className='flex flex-row gap-8'>
-							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<GoogleIcon />}>Crear cuenta con Google</Button>
-							<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Crear cuenta con Facebook</Button>
 						</div>
-						<p className='text-gray-500 text-center'>-OR-</p>
 						<form className='flex flex-col gap-4 justify-items-start' onSubmit={handleSubmit}>
 							<TextField
 								value={name}
@@ -226,7 +228,7 @@ const Register = () => {
 								helperText={passwordError && 'Mínimo ocho caractéres, al menos una letra mayúscula,\n\n una letra minúscula y un número'} />
 							<div className='flex flex-col'>
 								<hr className='border mb-1'/>
-								<label className='font-semibold text-gray-800'>Seleccione su Rol</label>
+								<label className=' m-2 font-semibold text-gray-800'>Seleccione su Rol</label>
 								<ToggleButtonGroup className='self-center' color='secondary' exclusive onChange={handleRoleChange} value={role}>
 									<ToggleButton value='estudiante' sx={{borderRadius: '4rem'}}>
 										<BackpackIcon />

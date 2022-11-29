@@ -50,7 +50,7 @@ function ProfileData({cid, nombreChaza, description,location,tel,days,schedule, 
             />
         </div>
         
-        <p className="text-xl font-bold leading-none">{nombreChaza}</p>
+        <p className=" mt-10 text-xl font-bold leading-none">{nombreChaza}</p>
         
         <div className="inline-flex space-x-1.5 items-center justify-end w-36 h-6">
         <Stack onClick={() => {

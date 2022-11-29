@@ -33,35 +33,55 @@ const ButtonCust = styled(Button)({
       boxShadow: '0 0 0 0.2rem rgba(237, 197, 47 ,.5)',
     },
   });
-  
-const ModalReport = ({
-  open,
-  onClose,
-  chaza,
-  report
-}: {
-  open: boolean;
-  onClose: () => void;
-  chaza: boolean;
-  report: boolean;
-}) => {
-  if (!open) return null;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [value, setValue] = React.useState('Controlled');
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
+
+  const ModalReport = ({
+    open,
+    onClose,
+    cc
+  }: {
+    open: boolean;
+    onClose: () => void;
+    cc: string;
+    onComment: (comentario: any) => void;
+  }) => {
+    if (!open) return null;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [state, setState] = React.useState('false');
+    const [comment, setComment] = React.useState('');
+    const [value, setValue] = React.useState('Controlled');
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target.value);
+    };
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+      event.preventDefault();
+      // eslint-disable-next-line no-console
+      const comentario = {
+        contenido: comment,
+        estado: state,
+        fecha: new Date(),
+        id: cc 
+      }
+      console.log(comentario);
+      setComment('');
+      onClose();
+    }
+
+
+
 
   return (
     <div
       onClick={onClose}
       className="fixed top-20 right-0 z-50 grid w-full md:w-full justify-items-center"
     >
-      <div
+      <form
         onClick={(e) => {
           e.stopPropagation();
         }}
+        onSubmit={handleSubmit}
         className="p-4 mr-8 w-2/3 border border-black bg-white shadow-2xl grid justify-items-stretch"
       >
         <IconButton
@@ -72,10 +92,8 @@ const ModalReport = ({
         >
           <CancelIcon sx={{ color: red[500], fontSize: 25 }} />
         </IconButton>
-        <p className="text-4xl font-medium leading-none justify-self-center mr-5">Reportar {(chaza)? "chaza":"comentario"}</p>
-        <p className="text-2xl font-medium leading-none mt-3 mr-5">Causa del reporte</p>
-        <MultipleSelect chaza={chaza} report={report}/>
-        <p className="text-2xl font-medium leading-none mt-3 mr-5">Detalles del reporte</p>
+        <p className="text-4xl font-medium leading-none justify-self-center mr-5">Reportar </p>
+        <p className="text-2xl font-medium leading-none mt-3 mr-5 m-2">Detalles del reporte</p>
         <Box
           component="form"
           
@@ -91,14 +109,15 @@ const ModalReport = ({
               rows={5}
               defaultValue=""
               className="w-11/12 m-1 mt-3"
+              onChange={(e) => setComment(e.target.value)}
             />
           </div>
         </Box>
         <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
-          <ButtonCust variant="contained">Finalizar denuncia</ButtonCust>
+          <ButtonCust type='submit' variant="contained">Finalizar denuncia</ButtonCust>
         </Stack>
+        </form>
       </div>
-    </div>
   );
 };
 
