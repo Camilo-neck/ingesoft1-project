@@ -12,10 +12,20 @@ const Chaza: NextPage = () => {
 
 	useEffect(() => {
 		async function f(){
-			const res = await fetch(`http://localhost:3000/api/chazaId?id=${id}`);
+			const chaza = await fetch(`http://localhost:3000/api/chazaId?id=${id}`).
+			then(res => res.json());
+			const comentarios_id = chaza.comentarios;
+			const comentarios = [];
+			for (const comentario_id of comentarios_id) {
+				const comentario = await fetch(`http://localhost:3000/api/comentario?comentario=${comentario_id}`).
+				then(res => res.json());
+				comentarios.push(comentario);
+			}
+			chaza.comentarios = comentarios;
 			console.log('res');
-			const data = await res.json();
-			setChazaInfo(data);
+			console.log(comentarios)
+			chaza.uid = id;
+			setChazaInfo(chaza);
 		}
 		f();
 	}, [id])

@@ -24,18 +24,18 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 	
 	useEffect(() => {
 		console.log('in')
-		const fetchChz = async (category: string | string[] | undefined) => {
+		const fetchChz = async (category: string | string[] | undefined, nombre: string | string[] | undefined) => {
 			console.log(category);
-			const res = await fetch(`http://localhost:3000/api/chaza?categoria=${category}`);
+			const res = await fetch(`http://localhost:3000/api/chaza?${category ? 'categoria='+category : 'categoria=Todas'}${nombre ? '&nombre='+nombre : ''}`);
 			const data = await res.json();
 			setChazas(data)
 		}
-		fetchChz(router.query.categoria)
+		fetchChz(router.query.categoria, router.query.nombre)
 	}, [router.query.categoria])
 
 	return (
 		<Layout>
-			<div className="p-3 m-1 w-full">
+			<div className="p-3 m-1">
 				<p className='font-semibold text-xl self-start'>Categorías</p>
 				<CSliderOfCards categories={props.categories} />
 			</div>
@@ -43,7 +43,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 			<div className="flex flex-col gap-10 m-4">
 				<div className="flex flex-row">
 					<div className="flex flex-row flex-grow items-center gap-2">
-						<p className="font-semibold">Filtrar por:</p>
+						{/* <p className="font-semibold">Filtrar por:</p>
 						<div className="flex flex-row">
 							<IconButton sx={{borderRadius: '12px'}}>	
 								<FilterListRoundedIcon />
@@ -53,7 +53,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 									<Button className="rounded-md border-[3px]" color={filtro.color} key={index} variant="outlined" size='small'>{filtro.name}</Button>
 								))}
 							</div>
-						</div>
+						</div> */}
 					</div>
 					<div className="flex flex-row items-center">
 						<p className="font-semibold">Ordenar por:</p>
@@ -75,7 +75,14 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 				</div>
 				<div className="flex flex-row flex-wrap gap-8 h-full overflow-y-auto">
 					{/*Chaza Card [TODO -> Pass to own component > Map json chazas] */}
-					{chazas.map((chaza: any, index: number) => ( 
+					{chazas.sort((a,b) => {
+						if (orden === 1) {
+							return a.calificacion > b.calificacion ? -1 : 1;
+						} else if (orden === 2) {
+							return a.nombre.localeCompare(b.nombre);
+						}
+						return b.nombre.localeCompare(a.nombre);
+					} ).map((chaza: any, index: number) => ( 
 						<div key={index} className='w-80 h-80 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
 							<div className="flex items-end justify-center rounded-lg backdrop-brightness-50 hover:backdrop-filter-none transition-all ease-linear duration-200 h-full w-full">
 								<Link href={`/chaza/${chaza.id}`}>
@@ -110,7 +117,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const query = context.query
 	console.log(query)
-	const chazas = await fetch(`http://127.0.0.1:5000/chaza?categoria=${query.categoria ? query.categoria : 'Todas'}`)
+	const chazas = await fetch(`http://127.0.0.1:5000/chaza?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	const categories = await fetch('http://127.0.0.1:3000/api/categories')

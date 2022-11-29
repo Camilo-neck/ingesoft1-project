@@ -9,7 +9,7 @@ import PhotosSlider from "./PhotosSlider"
 import ModalReport from './ModalReport';
 import ModalRating from './ModalRating';
 
-function ProfileData({nombreChaza, description,location,tel,days,schedule, categories, img,photos}:{nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categories: string[], img: string, photos: {
+function ProfileData({uid, nombreChaza, description,location,tel,days,schedule, categories, img,photos}:{uid: string, nombreChaza:string,description: string, location: string, tel: string, days: string, schedule: string, categories: string[], img: string, photos: {
     id: number;
     url: string;
     title: string;
@@ -35,7 +35,7 @@ function ProfileData({nombreChaza, description,location,tel,days,schedule, categ
             
             <Rating name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
         </Stack>
-        <ModalRating open={openModalRate} onClose={()=> setOpenModalRate(false)}/>
+        <ModalRating uid={uid} open={openModalRate} onClose={()=> setOpenModalRate(false)}/>
         </div>
         <div className="justify-items-center inline-flex flex-col space-y-4 items-center justify-start h-5/6 m-2">
             <div className="divide-y flex flex-col space-y-4 items-start justify-end w-full h-52 pl-3 pr-4 pt-4 pb-1.5 bg-white shadow border rounded-3xl border-gray-400">

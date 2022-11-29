@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -38,29 +38,52 @@ const ButtonCust = styled(Button)({
   const ModalRating = ({
     open,
     onClose,
-    
+    uid
   }: {
     open: boolean;
     onClose: () => void;
-    
+    uid: string;
   }) => {
+    const [value, setValue] = useState('Controlled');
+    const [rating, setRating] = useState<number | null>(0);
+    const [comment, setComment] = useState('');
     if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [value, setValue] = React.useState('Controlled');
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
     };
+
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+      event.preventDefault();
+      // eslint-disable-next-line no-console
+      const comentario = {
+        chazaId: uid,
+        estrellas: rating,
+        contenido: comment,
+        fecha: new Date(),
+        upvotes: 0,
+        usuario: '1234567'
+      }
+      console.log(comentario);
+      const response = fetch('http://localhost:3000/api/createComment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comentario)
+      })
+    }
   
     return (
       <div
         onClick={onClose}
         className="fixed top-20 right-0 z-50 grid w-full md:w-full justify-items-center"
       >
-        <div
+        <form
           onClick={(e) => {
             e.stopPropagation();
           }}
+          onSubmit={handleSubmit}
           className="p-4 mr-8 w-2/3 h-auto border border-black bg-white shadow-2xl grid justify-items-stretch"
         >
           <IconButton
@@ -74,7 +97,7 @@ const ButtonCust = styled(Button)({
           <p className="text-4xl font-medium leading-none justify-self-center mr-5">Califica la Chaza</p>
           <p className="md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5">¿Cuántas estrellas le das a la chaza?</p>
           <Stack spacing={1} className="justify-self-center">
-            <Rating name="half-rating-read" defaultValue={1} precision={0.5} size="large"/>
+            <Rating name="half-rating-read" onChange={(e, new_value) => setRating(new_value)} value={rating} precision={0.5} size="large"/>
           </Stack>
           <p className="md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5">Comenta tu experiencia</p>
           <Box
@@ -90,15 +113,16 @@ const ButtonCust = styled(Button)({
                 label="Detalles"
                 multiline
                 rows={5}
-                defaultValue=""
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 className="w-11/12 m-1 mt-3"
-              />
+              />  
             </div>
           </Box>
           <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
-            <ButtonCust variant="contained">Finalizar calificación</ButtonCust>
+            <ButtonCust type='submit' variant="contained">Finalizar calificación</ButtonCust>
           </Stack>
-        </div>
+        </form>
       </div>
     );
   };
