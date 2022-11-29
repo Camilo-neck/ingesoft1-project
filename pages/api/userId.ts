@@ -42,7 +42,6 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const query = req.query
-		console.log(query.nombre)
 		const response = await fetch(`http://127.0.0.1:5000/usuario/${query.uid}`, {
 			method: 'GET',
 			headers: {
@@ -53,8 +52,6 @@ export default async function handler(
 			// })
 		}).then(res => res.json())
 			.catch(err => console.log(err))
-		console.log('response')
-		console.log(JSON.stringify(response))
 		return res.status(200).json(JSON.parse(JSON.stringify(response)));
 	} catch (error) {
 		console.log("error");

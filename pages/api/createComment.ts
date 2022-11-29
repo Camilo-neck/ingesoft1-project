@@ -41,8 +41,6 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const body = req.body
-		console.log('Body:')
-		console.log(body)
 		const response = await fetch(`http://127.0.0.1:5000/comentario/add`, {
 			method: 'POST',
 			headers: {
@@ -51,7 +49,6 @@ export default async function handler(
 			body: JSON.stringify(body)
 		}).then(res => res.json())
 			.catch(err => console.log(err))
-		console.log(JSON.stringify(response))
 		return res.status(200).json(response);
 	} catch (error) {
 		console.log("error");

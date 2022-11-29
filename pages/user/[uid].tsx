@@ -43,7 +43,7 @@ const User: NextPage = () => {
 
 	useEffect(() => {
 		async function f(){
-			const user = await fetch(`http://127.0.0.1:3000/api/userId?uid=${uid}`).
+			const user = await fetch(`http://localhost:3000/api/userId?uid=${uid}`).
 			then(res => res.json());
 			
 			setUserInfo(user);
