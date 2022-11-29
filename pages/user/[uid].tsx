@@ -39,14 +39,17 @@ const ButtonCust = styled(Button)({
 const User: NextPage = () => {
 	const router = useRouter();
 	const { uid } = router.query;
-	const [userInfo, setUserInfo] = useState(null);
+	const [userInfo, setUserInfo] = useState<any>(null);
 
 	useEffect(() => {
 		async function f(){
+            console.log(uid);
+            if(uid) {
 			const user = await fetch(`http://localhost:3000/api/userId?uid=${uid}`).
 			then(res => res.json());
 			
 			setUserInfo(user);
+            }
 		}
 		f();
 	}, [uid])
@@ -74,7 +77,7 @@ const User: NextPage = () => {
                         <div className="mt-4">
                             <p className='text-2xl md:text-4xl font-bold leading-none mb-3'>Chazas registradas</p>
                             <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto p-2'>
-                                {userInfo?.chazasPropias.map((chaza: any, index: number) => ( 
+                                {userInfo?.chazasPropias?.map((chaza: any, index: number) => ( 
                                     <div key={index} className='w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover ' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
                                         <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50 transition-all ease-linear duration-300 h-full w-full">
                                             <Link href={`/chaza/${chaza.id}`}>
