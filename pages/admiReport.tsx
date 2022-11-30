@@ -9,16 +9,16 @@ import Report from "@/ui/Report"
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 
-const reports = [
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. '},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation '},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. '},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
-    {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation '},
+// const reports = [
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. '},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation '},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. '},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Comentario', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+//     {userName:'Usuario1', userPhoto: '/man.png',  date:"14/10/2022 09:32", tipeReport:'Chaza', causa:'Información falsa', comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation '},
 
-]
+// ]
 const admiReport = (props:{reportes: any[]}) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [reportes, setReportes] = useState(props.reportes);
@@ -53,7 +53,7 @@ const admiReport = (props:{reportes: any[]}) => {
                             {
                             reportes.map(item => (
                                 // eslint-disable-next-line react/jsx-key
-                                <Report date={item.fecha} tipeReport={((item.comentarioID=='')? 'Chaza':'Comentario')} comment={item.contenido}/>
+                                <Report date={item.fecha} tipeReport={((item.comentarioID=='')? 'Chaza':'Comentario')} comment={item.contenido} id={item.id} />
                             ))}
                             
                         </div>
