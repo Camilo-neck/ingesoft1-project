@@ -31,7 +31,7 @@ function Report({id, coid, date, tipeReport, comment}:{id:string,coid:string,dat
                 <p className="text-base font-light leading-none mt-3 text-justify">{comment}</p>
                 <div  className="mt-2 gap-4">
                     
-                    <Stack className='w-2/5'>
+                    <Stack className='w-full md:w-2/5'>
                     
                         <Button onClick={handleReport} className='mb-3' variant="outlined" color="success">
                             Marcar como solucionado
@@ -42,7 +42,7 @@ function Report({id, coid, date, tipeReport, comment}:{id:string,coid:string,dat
                     
                     {tipeReport=='Comentario'?
                     <Link href={'/admiReport'}>
-                        <Stack onClick={handleReport} className='w-2/5'>
+                        <Stack onClick={handleReport} className='w-full md:w-2/5'>
                             <Stack onClick={handleComments} className=''>
                                 <Button variant="outlined" color="error">
                                     Eliminar Comentario

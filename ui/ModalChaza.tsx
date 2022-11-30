@@ -109,7 +109,7 @@ const ModalChaza = ({
   return (
     <div
         onClick={onClose}
-        className="fixed top-4 z-50 grid h-96 md:h-[30rem] lg:h-[43rem] border border-black bg-white shadow-2xl w-fit justify-items-center overflow-auto"
+        className="fixed top-4 mr-3 z-50 grid h-96 md:h-[30rem] lg:h-[43rem] border border-black bg-white shadow-2xl w-fit justify-items-center overflow-auto"
       >
         <form
           onClick={(e) => {
