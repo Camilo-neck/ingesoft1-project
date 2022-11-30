@@ -58,7 +58,7 @@ const User: NextPage = () => {
                     <div className="flex items-end justify-center rounded-lg  hover:backdrop-brightness-50 transition-all ease-linear duration-300 h-full w-full">
                         <div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
                             <div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
-                                <div className='w-6 h-6 rounded-full bg-red-600'></div>
+                                <Avatar sx={{width: '2rem', height: '2rem'}} src={chaza.urlFotoChaza} />
                                 <div className='flex flex-col'>
                                     <p className='text-white font-semibold'>{chaza.nombre}</p>
                                     

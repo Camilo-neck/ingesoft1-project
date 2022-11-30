@@ -13,6 +13,7 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import CSliderOfCards from "@/ui/CSliderofCards";
 import { useRouter } from "next/router";
+import { Avatar } from "@mui/material";
 
 const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 	const [chazas, setChazas] = useState(props.chazas);
@@ -76,7 +77,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 					</div>
 				</div>
 				<div className="flex flex-row flex-wrap gap-8 h-full overflow-y-auto">
-					{/*Chaza Card [TODO -> Pass to own component > Map json chazas] */}
+					{/*Chaza Card [TODO -> Pass to own component] */}
 					{chazas.sort((a,b) => {
 						if (orden === 1) {
 							return a.calificacion > b.calificacion ? -1 : 1;
@@ -90,7 +91,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 								<Link href={`/chaza/${chaza.id}`}>
 									<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
 										<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
-											<div className='w-6 h-6 rounded-full bg-red-600'></div>
+											<Avatar sx={{width: '2rem', height: '2rem'}} src={chaza.urlFotoChaza} />
 											<div className='flex flex-col'>
 												<p className='text-white font-semibold'>{chaza.nombre}</p>
 												<div className='flex flex-row gap-1'>
