@@ -109,14 +109,14 @@ const ModalChaza = ({
   return (
     <div
         onClick={onClose}
-        className="fixed top-2 right-0 z-50 grid w-full md:w-full justify-items-center overflow-auto"
+        className="fixed top-4 z-50 grid h-96 md:h-[30rem] lg:h-[43rem] border border-black bg-white shadow-2xl w-fit justify-items-center overflow-auto"
       >
         <form
           onClick={(e) => {
             e.stopPropagation();
           }}
           onSubmit={handleSubmit}
-          className="p-4 md:mr-8 w-11/12 md:w-2/3 h-auto border border-black bg-white shadow-2xl grid justify-items-stretch"
+          className="p-4 md:mr-8 w-fit h-auto grid justify-items-stretch"
         >
           <IconButton
             color="secondary"
