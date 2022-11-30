@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 import CNavBar from "@/ui/chazamNavBar"
 import Footer from "@/ui/Footer"
@@ -6,9 +7,11 @@ import { blue } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import BarChart from '@/ui/BarChart';
 import Link from 'next/link';
+import { useEffect, useState } from "react";
 
-
-const admiStat = () => {
+const admiStat = (props:{barData: any[]}) => {
+    const [barData, setbarData] = useState(props.barData);
+ 
     return (
         <div>
             <CNavBar/>
@@ -35,7 +38,7 @@ const admiStat = () => {
                         
                     </div>
                     <div className="col-span-5 md:col-span-4 mt-6 ml-3 bg-white overflow-auto scrollbar-hide">
-                        <BarChart/>
+                        <BarChart data={barData} />
                         
                     </div>
                     
@@ -45,6 +48,20 @@ const admiStat = () => {
         </div>
     )
 
+}
+
+export const getServerSideProps = async (context: { query: any; }) => {
+	const query = context.query
+	console.log(query)
+	const barData = await fetch(`http://127.0.0.1:5000/chaza/rating`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    
+        return {
+            props: {
+                barData
+            }
+        }	
 }
 
 export default admiStat

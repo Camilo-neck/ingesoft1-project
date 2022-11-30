@@ -1,76 +1,11 @@
 
 import { ResponsiveBar } from "@nivo/bar";
+import { log } from "console";
+import { useEffect, useState } from "react";
 
-const data = [
-    {
-      tipo: "Mercado",
-      "0-1 estrellas": 107,
-      "1-2 estrellas": 96,
-      "2-3 estrellas": 72,
-      "3-4 estrellas": 140,
-      "4-5 estrellas": 140,
-    },
-    {
-      tipo: "Vivero",
-      "0-1 estrellas": 17,
-      "1-2 estrellas": 76,
-      "2-3 estrellas": 92,
-      "3-4 estrellas": 40,
-      "4-5 estrellas": 10,
-    },
-    {
-      tipo: "Comida",
-      "0-1 estrellas": 66,
-      "1-2 estrellas": 94,
-      "2-3 estrellas": 22,
-      "3-4 estrellas": 10,
-      "4-5 estrellas": 120,
-    },
-    {
-      tipo: "Comida rápida",
-      "0-1 estrellas": 147,
-      "1-2 estrellas": 96,
-      "2-3 estrellas": 71,
-      "3-4 estrellas": 100,
-      "4-5 estrellas": 10,
-    },
-    {
-      tipo: "Ropa",
-      "0-1 estrellas": 107,
-      "1-2 estrellas": 96,
-      "2-3 estrellas": 72,
-      "3-4 estrellas": 140,
-      "4-5 estrellas": 140,
-    },
-    {
-      tipo: "Bisuteria",
-      "0-1 estrellas": 37,
-      "1-2 estrellas": 98,
-      "2-3 estrellas": 89,
-      "3-4 estrellas": 10,
-      "4-5 estrellas": 40,
-    },
-    {
-      tipo: "Papeleria",
-      "0-1 estrellas": 37,
-      "1-2 estrellas": 36,
-      "2-3 estrellas": 62,
-      "3-4 estrellas": 10,
-      "4-5 estrellas": 70,
-    },
-    {
-      tipo: "Otros",
-      "0-1 estrellas": 17,
-      "1-2 estrellas": 16,
-      "2-3 estrellas": 52,
-      "3-4 estrellas": 50,
-      "4-5 estrellas": 40,
-    },
-  ];
-
-const BarChart = ({ isDashboard = false }) => {
+const BarChart = ({data}:{data: any[]},{ isDashboard = false }) => {
   
-
+  
   return (
     <ResponsiveBar
       data={data}
@@ -161,5 +96,50 @@ const BarChart = ({ isDashboard = false }) => {
     />
   );
 };
+
+
+export const getServerSideProps = async (context: { query: any; }) => {
+	const query = context.query
+	console.log(query)
+	const mercado = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Mercado`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const vivero = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Vivero`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const comida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Comida`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+    const comidaRapida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/ComidaRapida`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+	const ropa = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Ropa`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+  const bisuteria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Bisuteria`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+  const papeleria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Papeleria`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+  const otros = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Otros`)
+	.then(res => res.json())
+	.catch(err => console.log(err));
+  console.log(comida)
+  console.log(vivero)
+	return {
+		props: {
+			comida,
+			mercado,
+      vivero,
+      comidaRapida,
+      ropa,
+      bisuteria,
+      papeleria,
+      otros,
+		}
+	}	
+}
+
 
 export default BarChart;
