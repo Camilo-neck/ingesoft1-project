@@ -42,7 +42,7 @@ export default async function handler(
 	try {
 		const body = req.body
 		console.log(body)
-		const response = await fetch(`http://127.0.0.1:5000/usuario/${body.propietario.id}/newchaza`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/${body.propietario.id}/newchaza`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

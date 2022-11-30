@@ -64,7 +64,7 @@ const admiReport = (props:{reportes: any[]}) => {
 export const getServerSideProps = async (context: { query: any; }) => {
 	const query = context.query
 	console.log(query)
-	const reportes = await fetch(`http://127.0.0.1:5000/reporte/getUnresolvedReports`)
+	const reportes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reporte/getUnresolvedReports`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	

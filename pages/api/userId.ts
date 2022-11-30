@@ -42,7 +42,8 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const query = req.query
-		const response = await fetch(`http://127.0.0.1:5000/usuario/${query.uid}`, {
+		console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/${query.uid}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

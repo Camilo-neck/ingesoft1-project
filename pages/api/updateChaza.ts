@@ -41,7 +41,9 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const body = req.body
-		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/add`, {
+		const query = req.query
+		console.log(body)
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/edit/${query.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

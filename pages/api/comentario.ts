@@ -43,7 +43,7 @@ export default async function handler(
 	try {
 		const query = req.query
 		console.log(query)
-		const response = await fetch(`http://127.0.0.1:5000/chaza/getChazaComments/${query.chaza_id}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getChazaComments/${query.chaza_id}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

@@ -53,9 +53,11 @@ const admiStat = (props:{barData: any[]}) => {
 export const getServerSideProps = async (context: { query: any; }) => {
 	const query = context.query
 	console.log(query)
-	const barData = await fetch(`http://127.0.0.1:5000/chaza/rating`)
+	const barData = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/rating`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
+    console.log('bar')
+    console.log(barData)
     
         return {
             props: {

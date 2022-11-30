@@ -35,7 +35,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
     const [currComments, setCurrComments] = useState(chaza.comentarios);
 
     async function handleSubmit(comentario: any) {
-        fetch('http://localhost:3000/api/createComment', {
+        fetch('${process.env.NEXT_PUBLIC_API_URL}/createComment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
             body: JSON.stringify(comentario)
         })
         comentario.fecha = JSON.parse(JSON.stringify(comentario.fecha));
-        const usuario = await fetch(`http://localhost:3000/api/userId?uid=${comentario.usuario}`).then(res => res.json());
+        const usuario = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userId?uid=${comentario.usuario}`).then(res => res.json());
         comentario.usuario = usuario;
         const tempComments = [...currComments, comentario]
         console.log('temp')

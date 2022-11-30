@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import { MenuItem } from '@mui/material';
 import { storage } from 'config/firebase';
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
+import { useRouter } from 'next/router';
 
 const ButtonCust = styled(Button)({
     boxShadow: 'none',
@@ -40,7 +41,7 @@ const ButtonCust = styled(Button)({
 
 const categories = [
     'Mercado',
-    'Viveros',
+    'Vivero',
     'Comida',
     'Comidas rapidas',
     'Ropa',
@@ -53,31 +54,38 @@ const ModalChaza = ({
     open,
     onClose,
     add,
-    propietario
+    propietario,
+    chaza
   }: {
     open: boolean;
     onClose: () => void;
     add: boolean;
     propietario: any;
+    chaza?: any;
   }) => {
-    const [value, setValue] = useState('Controlled');
-    const [name, setName] = useState('');
-    const [ description, setDescription] = useState('');
-    const [ubicacion, setUbicacion] = useState('');
-    const [horario, setHorario] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [name, setName] = useState(add ? '' : chaza.nombre);
+    const [ description, setDescription] = useState(add ? '' : chaza.descripcion);
+    const [ubicacion, setUbicacion] = useState(add ? '' : chaza.ubicacion);
+    const [horario, setHorario] = useState(add ? '': chaza.horario);
+    const [telefono, setTelefono] = useState(add ? '': chaza.telefono);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(add ? [] : chaza.categorias);
     const [pfp, setPfp] = useState<string>('');
     const [bgPic, setBgPic] = useState<string>('');
-    if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-  
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
-    };
+    const router = useRouter();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    useEffect(() => {
+      console.log(add)
+      setName(add ? '' : chaza.nombre);
+      setDescription(add ? '' : chaza.descripcion);
+      setUbicacion(add ? '' : chaza.ubicacion);
+      setHorario(add ? '': chaza.horario);
+      setTelefono(add ? '': chaza.telefono);
+      setSelectedCategories(add ? [] : chaza.categorias);
+    }, [add, chaza])
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (add) {
       const chaza = {
         nombre: name,
         descripcion: description,
@@ -97,15 +105,35 @@ const ModalChaza = ({
         chaza
       }
 
-      fetch('http://localhost:3000/api/addChaza', {
+      fetch('${process.env.NEXT_PUBLIC_API_URL}/addChaza', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
       })
-    }
+    } else {
+      const toUpdateChaza = {
+        nombre: name,
+        descripcion: description,
+        ubicacion,
+        horario,
+        telefono,
+        categorias: selectedCategories
+      }
 
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateChaza?id=${chaza.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toUpdateChaza)
+      })
+    }
+    router.reload();
+  }
+
+    if (!open) return null; 
   return (
     <div
         onClick={onClose}
@@ -172,6 +200,8 @@ const ModalChaza = ({
                 onChange={(e) => setHorario(e.target.value)}
                 className="w-11/12 m-1 mt-3"
               />
+              {add && (
+                <>
               <p className='md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5'>Foto de perfil</p>
               <input type='file' accept='image/*' onChange={(e) => {
                 const metadata = {
@@ -260,6 +290,8 @@ const ModalChaza = ({
                 }
                 ;
               }} className="w-11/12 m-1 mt-3" />
+              </>
+              )}
             </div>
           </Box>
           <Select
@@ -275,7 +307,7 @@ const ModalChaza = ({
           </Select>
           <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
             <ButtonCust
-            disabled={name === '' || description === '' || ubicacion === '' || telefono === '' || horario === '' || pfp === '' || bgPic === '' || selectedCategories.length === 0}
+            disabled={add ? name === '' || description === '' || ubicacion === '' || telefono === '' || horario === '' || pfp === '' || bgPic === '' || selectedCategories.length === 0 : false}
             type='submit' variant="contained">{(add)? "Añadir":"Editar"} chaza</ButtonCust>
           </Stack>
         </form>
@@ -284,5 +316,3 @@ const ModalChaza = ({
 }
 
 export default ModalChaza
-
-

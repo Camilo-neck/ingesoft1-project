@@ -9,12 +9,12 @@ function Report({id, coid, date, tipeReport, comment}:{id:string,coid:string,dat
     
     const handleComments = () => {
         
-        fetch(`http://localhost:3000/api/deleteComment?id=${coid}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteComment?id=${coid}`)
     }
 
     const handleReport = () => {
         
-        fetch(`http://localhost:3000/api/reporte?id=${id}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/reporte?id=${id}`)
     } 
     const refreshPage = ()=>{
         window.parent.location.reload();

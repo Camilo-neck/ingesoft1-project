@@ -47,7 +47,7 @@ function Comment({uid, userName, userPhoto, grade, date,comment, upvotes}:{uid:s
 
   const handleUpvotes = () => {
     setUpvotesCount(upvotesCount + 1)
-    fetch(`http://localhost:3000/api/upvote?id=${uid}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/upvote?id=${uid}`)
   }
 
   return (
@@ -78,7 +78,7 @@ function Comment({uid, userName, userPhoto, grade, date,comment, upvotes}:{uid:s
             <IconButton onClick={() => setOpenModal(true)} color="secondary" aria-label="add an alarm">
                 <ErrorOutlineIcon sx={{ color: red[500] }}/>
             </IconButton> 
-            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(false)} report={(true)}/>
+            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} isChaza={(false)} comentario={uid} />
             </div>
         </div>
     </div>

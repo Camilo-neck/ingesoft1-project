@@ -43,7 +43,7 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const query = req.query
-		const response = await fetch(`http://127.0.0.1:5000/reporte/resolve/${query.id}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reporte/resolve/${query.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

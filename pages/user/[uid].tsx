@@ -45,13 +45,15 @@ const User: NextPage = () => {
     const [openModalStat, setOpenModalStat] = useState<boolean>(false)
     const [statsData, setStatsData] = useState<any>(null)
     const [openModalChaza, setOpenModalChaza] = useState(false)
+    let [add, setAdd] = useState(true)
+    const [toEditChaza, setToEditChaza] = useState<any>(null)
 
-    const ChazaCard = ({chaza, onStatsClick}: {chaza: any, onStatsClick: (comments: any[]) => void}) => {
+    const ChazaCard = ({chaza, onStatsClick, onEditChaza}: {chaza: any, onStatsClick: (comments: any[]) => void, onEditChaza: (chaza: any) => void}) => {
         const [showButton, setShowButton] = useState(false);
         return <div onMouseEnter={() => setShowButton(true)} onMouseLeave={() => setShowButton(false)} className='flex items-center justify-center w-60 h-60 rounded-lg bg-no-repeat bg-center bg-cover' style={{backgroundImage: `url("${chaza.urlImagen}"), url("images/notFound.png")`}}>
                     <div className={`absolute ${showButton ? 'block' : 'hidden'} z-10 transition-all ease-linear duration-300`}>
                         <div className="flex flex-col gap-2 w-full h-full">
-                            <Button variant='outlined' size='small' sx={{borderRadius: '15px'}} color='secondary'>Editar Chaza</Button>
+                            <Button onClick={() => onEditChaza(chaza)} variant='outlined' size='small' sx={{borderRadius: '15px'}} color='secondary'>Editar Chaza</Button>
                             <Button onClick={() => onStatsClick(chaza.comentarios)} variant='outlined' size='small' sx={{borderRadius: '15px'}} color='secondary'>Ver estadísticas</Button>
                         </div>
                     </div>
@@ -77,14 +79,16 @@ const User: NextPage = () => {
 		async function f(){
             console.log(uid);
             if(uid) {
-			const user = await fetch(`http://localhost:3000/api/userId?uid=${uid}`).
+                console.log(process.env.NEXT_PUBLIC_API_URL)
+			const user = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userId?uid=${uid}`).
 			then(res => res.json());
             if (user.chazasPropias) {
                 const chazas = [];
                 for (const chaza_id of user.chazasPropias) {
-                    const chaza = await fetch(`http://localhost:3000/api/chazaId?id=${chaza_id}`).
+                    const chaza = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chazaId?id=${chaza_id}`).
                     then(res => res.json());
-                    chaza.comentarios = await fetch(`http://localhost:3000/api/comentario?chaza_id=${chaza_id}`).then(res => res.json());
+                    chaza.id = chaza_id;
+                    chaza.comentarios = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comentario?chaza_id=${chaza_id}`).then(res => res.json());
                     chazas.push(chaza);
                 }
                 user.chazasPropias = chazas;
@@ -113,6 +117,13 @@ const User: NextPage = () => {
         setStatsData(data);
     }
 
+    const handleEditChaza = (chaza: any) => {
+        setToEditChaza(chaza);
+        setOpenModalChaza(true);
+        add = false;
+        setAdd(add);
+    }
+
 	return (
 		userInfo ? (
             <div>
@@ -120,7 +131,7 @@ const User: NextPage = () => {
             <main>
                 <div className='flex justify-center items-center'>
                     <ModalStat data={statsData} open={openModalStat} onClose={() => setOpenModalStat(false)} />
-                    <ModalChaza propietario={userInfo} open={openModalChaza} onClose={() => setOpenModalChaza(false)} add={true} />
+                    <ModalChaza chaza={toEditChaza} propietario={userInfo} open={openModalChaza} onClose={() => setOpenModalChaza(false)} add={add} />
                     <div className="bg-gray-50 bg-opacity-30 mt-24 mb-24 shadow rounded-3xl w-11/12 md:w-9/12  p-10" >
                         <div className='grid grid-cols-4'>
                             <Avatar sx={{ bgcolor: deepPurple[300], width: 86, height: 86 }} alt="Remy Sharp" src={userInfo.foto} className='col-span-4 md:col-span-1 mt-4 grid justify-self-center'/>
@@ -138,8 +149,8 @@ const User: NextPage = () => {
                         <div className="mt-4">
                             <p className='text-2xl md:text-4xl font-bold leading-none mb-3'>Chazas registradas</p>
                             <div className='flex flex-row flex-wrap gap-8 h-full overflow-y-auto p-2'>
-                                {userInfo?.chazasPropias?.map((chaza: any, index: number) => <ChazaCard onStatsClick={handleStatsOpen} key={index} chaza={chaza} />)} 
-                                <div title='Añadir Chaza' onClick={() => setOpenModalChaza(true)} className='w-60 h-60 flex items-center justify-center rounded-lg outline-dashed outline-2 outline-yellow-500 hover:scale-105 transition all ease-linear duration-300'>
+                                {userInfo?.chazasPropias?.map((chaza: any, index: number) => <ChazaCard onEditChaza={handleEditChaza} onStatsClick={handleStatsOpen} key={index} chaza={chaza} />)} 
+                                <div title='Añadir Chaza' onClick={() => {add=true;setAdd(add); setOpenModalChaza(true)}} className='w-60 h-60 flex items-center justify-center rounded-lg outline-dashed outline-2 outline-yellow-500 hover:scale-105 transition all ease-linear duration-300'>
                                     <AddCircleOutlineIcon fontSize='large' className='text-yellow-500' />
                                 </div>
                             </div>

@@ -51,7 +51,7 @@ const Register = () => {
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
 				// Signed in 
-				await fetch(`http://localhost:3000/api/createUser`, {
+				await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createUser`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'

@@ -27,7 +27,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 		console.log('in')
 		const fetchChz = async (category: string | string[] | undefined, nombre: string | string[] | undefined) => {
 			console.log(category);
-			const res = await fetch(`http://localhost:3000/api/chaza?${category ? 'categoria='+category : 'categoria=Todas'}${nombre ? '&nombre='+nombre : ''}`);
+			const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chaza?${category ? 'categoria='+category : 'categoria=Todas'}${nombre ? '&nombre='+nombre : ''}`);
 			const data = await res.json();
 			console.log('data')
 			console.log(data);
@@ -91,7 +91,7 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 								<Link href={`/chaza/${chaza.id}`}>
 									<div className='mb-2 rounded-full' style={{backgroundImage: 'linear-gradient(100.11deg, rgba(0, 0, 0, 0.4) 30.39%, rgba(0, 0, 0, 0.1) 61.67%)'}}>
 										<div className='flex flex-row items-center gap-2 p-2 backdrop-blur-md rounded-full'>
-											<Avatar sx={{width: '2rem', height: '2rem'}} src={chaza.urlFotoChaza} />
+											d<Avatar sx={{width: '2rem', height: '2rem'}} src={chaza.urlFotoChaza} />
 											<div className='flex flex-col'>
 												<p className='text-white font-semibold'>{chaza.nombre}</p>
 												<div className='flex flex-row gap-1'>
@@ -119,10 +119,10 @@ const Catalog = (props: { chazas: any[]; categories:any[] }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const query = context.query
-	const chazas = await fetch(`http://localhost:3000/api/chaza?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`)
+	const chazas = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chaza?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-	const categories = await fetch('http://localhost:3000/api/categories')
+	const categories = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
 

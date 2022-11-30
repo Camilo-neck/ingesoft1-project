@@ -12,10 +12,10 @@ const Chaza: NextPage = () => {
 
 	useEffect(() => {
 		async function f(){
-			const chaza = await fetch(`http://localhost:3000/api/chazaId?id=${id}`).
+			const chaza = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chazaId?id=${id}`).
 			then(res => res.json());
 			const comentarios_id = chaza.comentarios;
-			const comentarios = await fetch(`http://localhost:3000/api/comentario?chaza_id=${id}`).then(res => res.json());
+			const comentarios = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comentario?chaza_id=${id}`).then(res => res.json());
 			chaza.comentarios = comentarios;
 			console.log(comentarios);
 			chaza.uid = id;
