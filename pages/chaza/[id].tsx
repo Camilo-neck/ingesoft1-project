@@ -17,6 +17,7 @@ const Chaza: NextPage = () => {
 			const comentarios_id = chaza.comentarios;
 			const comentarios = await fetch(`http://localhost:3000/api/comentario?chaza_id=${id}`).then(res => res.json());
 			chaza.comentarios = comentarios;
+			console.log(comentarios);
 			chaza.uid = id;
 			setChazaInfo(chaza);
 		}

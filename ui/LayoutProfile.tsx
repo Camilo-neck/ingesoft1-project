@@ -4,7 +4,7 @@ import Image from "next/image"
 import styles from '@/styles/Home.module.css'
 import ProfileData from "./ProfileData"
 import ProfileRatings from "./ProfileRatings"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 const profileData =
 {
     nombre: "Nombre de la chaza",

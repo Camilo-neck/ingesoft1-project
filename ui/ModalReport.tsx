@@ -38,18 +38,19 @@ const ButtonCust = styled(Button)({
   const ModalReport = ({
     open,
     onClose,
-    cc
+    chaza,
+    report
   }: {
     open: boolean;
     onClose: () => void;
-    cc: string;
-    onComment: (comentario: any) => void;
+    chaza: boolean;
+    report: boolean;
   }) => {
-    if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, setState] = React.useState('false');
     const [comment, setComment] = React.useState('');
     const [value, setValue] = React.useState('Controlled');
+    if (!open) return null;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
@@ -62,7 +63,6 @@ const ButtonCust = styled(Button)({
         contenido: comment,
         estado: state,
         fecha: new Date(),
-        id: cc 
       }
       console.log(comentario);
       setComment('');
