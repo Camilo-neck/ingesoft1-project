@@ -12,7 +12,7 @@ type Comment = {
 
 const cors = Cors({
 	methods: ['GET', 'POST', 'DELETE'],
-	origin: [
+	origin: [ 
 		'/localhost:3000$/',
 	],
 })
