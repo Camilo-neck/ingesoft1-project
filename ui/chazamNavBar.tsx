@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,6 +18,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Link from 'next/link';
+
+// Firebase imports
+import { auth } from 'config/firebase'
+import { Auth, onAuthStateChanged, User } from 'firebase/auth';
+import Button from '@mui/material/Button';
+import { useRouter } from 'next/router';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -59,9 +67,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function CNavBar() {
+	const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
 		React.useState<null | HTMLElement>(null);
+	const [search, setSearch] = React.useState<string>('');
+	const router = useRouter();
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -83,6 +94,32 @@ export default function CNavBar() {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
 
+	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
+		if (search === '') {
+			return;
+		}
+		router.push(`/catalog?nombre=${search}`);
+	}
+
+	const authState = (currauth: Auth) => onAuthStateChanged(currauth, (user) => {
+		if (user) {
+			// User is signed in, see docs for a list of available properties
+			// https://firebase.google.com/docs/reference/js/firebase.User
+			const curruser = user;
+			setCurrentUser(curruser);
+			// ...
+		} else {
+			// User is signed out
+			// ...
+			setCurrentUser(null);
+		}
+	});
+
+	React.useEffect(() => {
+		authState(auth);
+	}, [auth, authState]);
+
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -100,8 +137,11 @@ export default function CNavBar() {
 			open={isMenuOpen}
 			onClose={handleMenuClose}
 		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+			<Link href={`/user/${currentUser?.uid}`}>
+				<MenuItem>Profile</MenuItem>
+			</Link>
+			<MenuItem onClick={() => auth.signOut().then(() => { setCurrentUser(null); handleMenuClose(); router.push('/') })}>Sign Out</MenuItem>
+			<MenuItem onClick={handleMenuClose}>Close</MenuItem>
 		</Menu>
 	);
 
@@ -161,36 +201,40 @@ export default function CNavBar() {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static" className='rounded-sm'>
 				<Toolbar>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						aria-label="open drawer"
-						sx={{ mr: 2 }}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						sx={{ display: { xs: 'none', sm: 'block' } }}
-					>
-						Corgis
-					</Typography>
-					<Search className='flex-grow rounded-xl'>
-						<SearchIconWrapper>
-							<SearchIcon className='text-gray-700'/>
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							className='w-full'
-							inputProps={{ 'aria-label': 'search'}}
-							sx= {{color: 'rgb(55, 65, 81)', borderRadius: '15px'}}
-						/>
-					</Search>
+
+					<Link href={"/"}>
+						<Image src={'/images/Corgi_logo.svg'} alt='corgi logo' width={40} height={50} />
+					</Link>
+					<Link href={"/"}>
+
+						<Typography
+							variant="h6"
+							noWrap
+							component="div"
+							className='font-semibold'
+							sx={{ display: { xs: 'none', sm: 'block' } }}
+						>
+							Corgis
+						</Typography>
+					</Link>
+
+					<form className='flex-grow' onSubmit={(e: any) => handleSearch(e)}>
+						<Search className='rounded-xl'>
+							<SearchIconWrapper>
+								<SearchIcon className='text-gray-700' />
+							</SearchIconWrapper>
+							<StyledInputBase
+								placeholder="Search…"
+								className='w-full'
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								inputProps={{ 'aria-label': 'search' }}
+								sx={{ color: 'rgb(55, 65, 81)', borderRadius: '15px' }}
+							/>
+						</Search>
+					</form>
 					{/* <Box sx={{ width: '2rem' }} /> */}
-					<Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '2rem' }}>
+					<Box sx={{ display: { md: 'flex' }, marginLeft: '2rem' }}>
 						{/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
 							<Badge badgeContent={4} color="error">
 								<MailIcon />
@@ -205,33 +249,38 @@ export default function CNavBar() {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton> */}
+						{currentUser ? (
+							<IconButton
+								size="large"
+								edge="end"
+								aria-haspopup="true"
+								onClick={handleProfileMenuOpen}
+								color="inherit"
+							>
+								{/* <AccountCircle /> */}
+								<Image className='rounded-full' src={currentUser.photoURL ? currentUser.photoURL : '/images/blank-profile-picture.webp'} alt='photo' width={30} height={30} />
+							</IconButton>
+						) : (
+							<Link href={'/login'} className="text-slate-800 flex flex-row gap-2">
+								<AccountCircle />
+								<span className='hidden lg:block'>Autenticarse</span>
+							</Link>
+						)}
+					</Box>
+					{/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
 						<IconButton
 							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
+							aria-label="show more"
+							aria-controls={mobileMenuId}
 							aria-haspopup="true"
 							onClick={handleProfileMenuOpen}
 							color="inherit"
 						>
 							<AccountCircle />
 						</IconButton>
-					</Box>
-					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</Box>
+					</Box> */}
 				</Toolbar>
 			</AppBar>
-			{renderMobileMenu}
 			{renderMenu}
 		</Box>
 	);

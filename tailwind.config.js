@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -16,6 +17,7 @@ module.exports = {
           orange: '#F5A623',
           violet: '#7928CA',
         },
+        
       },
       keyframes: ({ theme }) => ({
         rerender: {
@@ -60,4 +62,8 @@ module.exports = {
       }),
     },
   },
+  plugins: [
+    require('tailwind-scrollbar-hide')
+    // ...
+  ]
 };
