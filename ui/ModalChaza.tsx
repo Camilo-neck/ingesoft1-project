@@ -105,7 +105,7 @@ const ModalChaza = ({
         chaza
       }
 
-      fetch('${process.env.NEXT_PUBLIC_API_URL}/addChaza', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/addChaza`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
