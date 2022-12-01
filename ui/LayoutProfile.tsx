@@ -35,7 +35,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
     const [currComments, setCurrComments] = useState(chaza.comentarios);
 
     async function handleSubmit(comentario: any) {
-        fetch('${process.env.NEXT_PUBLIC_API_URL}/createComment', {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/createComment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
