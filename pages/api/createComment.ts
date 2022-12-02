@@ -49,7 +49,7 @@ export default async function handler(
 			body: JSON.stringify(body)
 		}).then(res => res.json())
 			.catch(err => console.log(err))
-		return res.status(200).json(response);
+		return res.status(200).json(JSON.parse(JSON.stringify(response)));
 	} catch (error) {
 		console.log("error");
 	}
