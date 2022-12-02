@@ -35,13 +35,14 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
     const [currComments, setCurrComments] = useState(chaza.comentarios);
 
     async function handleSubmit(comentario: any) {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/createComment`, {
+        const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createComment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(comentario)
         })
+        console.log(await res.json())
         comentario.fecha = JSON.parse(JSON.stringify(comentario.fecha));
         const usuario = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userId?uid=${comentario.usuario}`).then(res => res.json());
         comentario.usuario = usuario;
