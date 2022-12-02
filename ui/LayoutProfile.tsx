@@ -42,6 +42,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
             },
             body: JSON.stringify(comentario)
         })
+        console.log('com:')
         console.log(await res.json())
         comentario.fecha = JSON.parse(JSON.stringify(comentario.fecha));
         const usuario = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userId?uid=${comentario.usuario}`).then(res => res.json());
