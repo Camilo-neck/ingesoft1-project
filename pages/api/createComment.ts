@@ -36,7 +36,7 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse<Comment[]>, fn:
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<Comment[]>
+	res: NextApiResponse<any>
 ) {
 	await runMiddleware(req, res, cors)
 	try {
@@ -50,8 +50,8 @@ export default async function handler(
 		}).then(res => res.json())
 			.catch(err => console.log(err))
 		return res.status(200).json(JSON.parse(JSON.stringify(response)));
-	} catch (error) {
-		console.log("error");
+	} catch (error: any) {
+		return res.status(500).json({ error: error.message });
 	}
 	// res.status(200).json([
 	// 	{
