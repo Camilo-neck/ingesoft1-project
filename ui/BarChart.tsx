@@ -3,74 +3,8 @@ import { ResponsiveBar } from "@nivo/bar";
 import { log } from "console";
 import { useEffect, useState } from "react";
 
-const BarChart = ({comida,mercado, vivero, comidaRapida,ropa,bisuteria,papeleria,otros}:{comida: any[],mercado: any[], vivero:any[], comidaRapida:any[],ropa:any[],bisuteria:any[],papeleria:any[],otros:any[]},{ isDashboard = false }) => {
+const BarChart = ({data}:{data: any[]},{ isDashboard = false }) => {
   
-  const data = [
-    {
-      tipo: "Mercado",
-      "0-1 estrellas": mercado[5],
-      "1-2 estrellas": mercado[4],
-      "2-3 estrellas": mercado[3],
-      "3-4 estrellas": mercado[2],
-      "4-5 estrellas": mercado[1],
-    },
-    {
-      tipo: "Vivero",
-      "0-1 estrellas": vivero[5],
-      "1-2 estrellas": vivero[4],
-      "2-3 estrellas": vivero[3],
-      "3-4 estrellas": vivero[2],
-      "4-5 estrellas": vivero[1],
-    },
-    {
-      tipo: "Comida",
-      "0-1 estrellas": comida[5],
-      "1-2 estrellas": comida[4],
-      "2-3 estrellas": comida[3],
-      "3-4 estrellas": comida[2],
-      "4-5 estrellas": comida[1],
-    },
-    {
-      tipo: "Comida rápida",
-      "0-1 estrellas": comidaRapida[5],
-      "1-2 estrellas": comidaRapida[4],
-      "2-3 estrellas": comidaRapida[3],
-      "3-4 estrellas": comidaRapida[2],
-      "4-5 estrellas": comidaRapida[1],
-    },
-    {
-      tipo: "Ropa",
-      "0-1 estrellas": ropa[5],
-      "1-2 estrellas": ropa[4],
-      "2-3 estrellas": ropa[3],
-      "3-4 estrellas": ropa[2],
-      "4-5 estrellas": ropa[1],
-    },
-    {
-      tipo: "Bisuteria",
-      "0-1 estrellas": bisuteria[5],
-      "1-2 estrellas": bisuteria[4],
-      "2-3 estrellas": bisuteria[3],
-      "3-4 estrellas": bisuteria[2],
-      "4-5 estrellas": bisuteria[1],
-    },
-    {
-      tipo: "Papeleria",
-      "0-1 estrellas": papeleria[5],
-      "1-2 estrellas": papeleria[4],
-      "2-3 estrellas": papeleria[3],
-      "3-4 estrellas": papeleria[2],
-      "4-5 estrellas": papeleria[1],
-    },
-    {
-      tipo: "Otros",
-      "0-1 estrellas": otros[5],
-      "1-2 estrellas": otros[4],
-      "2-3 estrellas": otros[3],
-      "3-4 estrellas": otros[2],
-      "4-5 estrellas": otros[1],
-    },
-  ];
   
   return (
     <ResponsiveBar
@@ -167,28 +101,28 @@ const BarChart = ({comida,mercado, vivero, comidaRapida,ropa,bisuteria,papeleria
 export const getServerSideProps = async (context: { query: any; }) => {
 	const query = context.query
 	console.log(query)
-	const mercado = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Mercado`)
+	const mercado = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Mercado`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-    const vivero = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Vivero`)
+    const vivero = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Vivero`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-    const comida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Comida`)
+    const comida = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Comida`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-    const comidaRapida = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/ComidaRapida`)
+    const comidaRapida = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/ComidaRapida`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-	const ropa = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Ropa`)
+	const ropa = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Ropa`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-  const bisuteria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Bisuteria`)
+  const bisuteria = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Bisuteria`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-  const papeleria = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Papeleria`)
+  const papeleria = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Papeleria`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
-  const otros = await fetch(`http://127.0.0.1:5000/chaza/getRatingByCategory/Otros`)
+  const otros = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getRatingByCategory/Otros`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
   console.log(comida)

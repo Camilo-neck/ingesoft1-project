@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 
 const fetchCat = async () => {
-	const res = await fetch('http://localhost:3000/api/categoria');
+	const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/categoria');
 	const data = await res.json();
 	console.log(data);
 }
@@ -21,7 +21,7 @@ const Home = (props: {categories: any[]}) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const categories = await fetch('http://localhost:3000/api/categories')
+	const categories = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
 	.then(res => res.json())
 	.catch(err => console.log(err));
 	return {

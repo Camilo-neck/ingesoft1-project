@@ -41,7 +41,7 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const body = req.body
-		const response = await fetch(`http://127.0.0.1:5000/comentario/add`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/comentario/add`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

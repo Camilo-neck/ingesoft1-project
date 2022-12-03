@@ -41,12 +41,13 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const body = req.body
-		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/add`, {
+		console.log(body)
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/${body.propietario.id}/newchaza`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(body)
+			body: JSON.stringify(body.chaza)
 		}).then(res => res.json())
 			.catch(err => console.log(err))
 		return res.status(200).json(response);

@@ -4,7 +4,7 @@ import Image from "next/image"
 import styles from '@/styles/Home.module.css'
 import ProfileData from "./ProfileData"
 import ProfileRatings from "./ProfileRatings"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 const profileData =
 {
     nombre: "Nombre de la chaza",
@@ -35,7 +35,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
     const [currComments, setCurrComments] = useState(chaza.comentarios);
 
     async function handleSubmit(comentario: any) {
-        fetch('http://localhost:3000/api/createComment', {
+        fetch('${process.env.NEXT_PUBLIC_API_URL}/createComment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
             body: JSON.stringify(comentario)
         })
         comentario.fecha = JSON.parse(JSON.stringify(comentario.fecha));
-        const usuario = await fetch(`http://localhost:3000/api/userId?uid=${comentario.usuario}`).then(res => res.json());
+        const usuario = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userId?uid=${comentario.usuario}`).then(res => res.json());
         comentario.usuario = usuario;
         const tempComments = [...currComments, comentario]
         console.log('temp')
@@ -57,7 +57,7 @@ export default function LayoutProfile({ chaza, children }: { chaza: any, childre
             <main className="">
                 <div className="flex flex-column gap-6">
                     <div className=" basis-1/5 sm:w-1/2 bg-white shadow-xl border border-gray-400">
-                        <ProfileData onComment={handleSubmit} cid={chaza.uid} nombreChaza={chaza.nombre} description={chaza.descripcion} location={chaza.ubicacion} tel={chaza.telefono} days={profileData.days} schedule={chaza.horario} categories={chaza.categorias} img={profileData.avatar} photos={profileData.photos} />
+                        <ProfileData onComment={handleSubmit} cid={chaza.uid} nombreChaza={chaza.nombre} description={chaza.descripcion} location={chaza.ubicacion} tel={chaza.telefono} days={profileData.days} schedule={chaza.horario} categories={chaza.categorias} img={chaza.urlFotoChaza} photos={profileData.photos} />
                     </div>
                     <div className="mt-6 mb-6 basis-4/5 sm:w-1/2 bg-white overflow-auto scrollbar-hide">
                         <ProfileRatings meanGrade={chaza.calificacion.toFixed(1)} comments={currComments} />

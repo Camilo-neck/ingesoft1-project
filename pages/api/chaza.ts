@@ -42,7 +42,7 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const query = req.query
-		const response = await fetch(`http://127.0.0.1:5000/chaza/?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/?${query.categoria ? 'categoria='+query.categoria : 'categoria=Todas'}${query.nombre ? '&nombre='+query.nombre : ''}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

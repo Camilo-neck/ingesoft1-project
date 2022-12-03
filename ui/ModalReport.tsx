@@ -38,18 +38,21 @@ const ButtonCust = styled(Button)({
   const ModalReport = ({
     open,
     onClose,
-    cc
+    isChaza,
+    chaza,
+    comentario,
   }: {
     open: boolean;
     onClose: () => void;
-    cc: string;
-    onComment: (comentario: any) => void;
+    isChaza: boolean;
+    chaza?: any;
+    comentario?: any;
   }) => {
-    if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, setState] = React.useState('false');
     const [comment, setComment] = React.useState('');
     const [value, setValue] = React.useState('Controlled');
+    if (!open) return null;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
@@ -58,14 +61,41 @@ const ButtonCust = styled(Button)({
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       // eslint-disable-next-line no-console
-      const comentario = {
-        contenido: comment,
-        estado: state,
-        fecha: new Date(),
-        id: cc 
+      if (!isChaza) {
+        const report = {
+          contenido: comment,
+          estado: state,
+          fecha: new Date(),
+          comentario: chaza ? undefined : comentario.id,
+          chaza: chaza ? chaza.id : undefined,
+        }
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/createReport`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(report),
+          })
+        console.log(report);
+        setComment('');
+      } else {
+        const report = {
+          contenido: comment,
+          estado: state,
+          fecha: new Date(),
+          comentario: chaza ? undefined : comentario.id,
+          chaza: chaza ? chaza.id : undefined,
+        }
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/createReport`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(report),
+          })
+        console.log(report);
+        setComment('');
       }
-      console.log(comentario);
-      setComment('');
       onClose();
     }
 

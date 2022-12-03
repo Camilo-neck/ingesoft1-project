@@ -39,7 +39,7 @@ function ProfileRatings({meanGrade, comments}:{meanGrade: number, comments: any[
                 <p className="text-3xl font-medium leading-none mt-7 ml-9">Comentarios</p>
                 {commentsReversed.map((item) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Comment userName={item.usuario.nombre} userPhoto={item.usuario.urlFotoPerfil} grade={Number.parseFloat(item.estrellas)} date={item.fecha} comment={item.contenido} upvotes={item.upvotes}/>
+                    <Comment uid={item.id} userName={item.usuario.nombre} userPhoto={item.usuario.urlFotoPerfil} grade={Number.parseFloat(item.estrellas)} date={item.fecha} comment={item.contenido} upvotes={item.upvotes}/>
                 ))}
                 
             </div>

@@ -3,9 +3,22 @@ import Avatar from '@mui/material/Avatar';
 import { blue } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Link from 'next/link';
 
-function Report({ date, tipeReport, comment}:{date:string, tipeReport:string,comment:string}) {
+function Report({id, coid, date, tipeReport, comment}:{id:string,coid:string,date:string, tipeReport:string,comment:string}) {
     
+    const handleComments = () => {
+        
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/deleteComment?id=${coid}`)
+    }
+
+    const handleReport = () => {
+        
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/reporte?id=${id}`)
+    } 
+    const refreshPage = ()=>{
+        window.parent.location.reload();
+    } 
     return (
         <div className='w-full flex justify-center mt-4'>
             <div className="w-11/12 bg-white border border-gray-300 p-5">
@@ -16,16 +29,32 @@ function Report({ date, tipeReport, comment}:{date:string, tipeReport:string,com
                 </div>
             
                 <p className="text-base font-light leading-none mt-3 text-justify">{comment}</p>
-                <div className="mt-2 gap-4">
-                    <Button className='mb-3' variant="outlined" color="success">
-                        Marcar como solucionado
-                    </Button>
-                </div>
+                <div  className="mt-2 gap-4">
+                    
+                    <Stack className='w-full md:w-2/5'>
+                    
+                        <Button onClick={handleReport} className='mb-3' variant="outlined" color="success">
+                            Marcar como solucionado
+                        </Button>
+                        
+                    </Stack>
+                        
+                    
                     {tipeReport=='Comentario'?
-                    <Button variant="outlined" color="error">
-                        Eliminar Comentario
-                    </Button>
+                    <Link href={'/admiReport'}>
+                        <Stack onClick={handleReport} className='w-full md:w-2/5'>
+                            <Stack onClick={handleComments} className=''>
+                                <Button variant="outlined" color="error">
+                                    Eliminar Comentario
+                                </Button>
+                            </Stack>
+                            
+                        </Stack>
+                        
+                    </Link>
                     : <p/>}
+                </div>
+                    
               
                 
           </div>

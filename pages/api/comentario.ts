@@ -42,7 +42,8 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const query = req.query
-		const response = await fetch(`http://127.0.0.1:5000/comentario/${query.comentario}`, {
+		console.log(query)
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chaza/getChazaComments/${query.chaza_id}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -52,6 +53,7 @@ export default async function handler(
 			// })
 		}).then(res => res.json())
 			.catch(err => console.log(err))
+		console.log(response)
 		return res.status(200).json(JSON.parse(JSON.stringify(response)));
 	} catch (error) {
 		console.log("error");

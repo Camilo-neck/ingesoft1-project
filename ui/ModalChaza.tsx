@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -7,7 +7,12 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
+import { MenuItem } from '@mui/material';
+import { storage } from 'config/firebase';
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
+import { useRouter } from 'next/router';
 
 const ButtonCust = styled(Button)({
     boxShadow: 'none',
@@ -34,32 +39,112 @@ const ButtonCust = styled(Button)({
     },
   });
 
+const categories = [
+    'Mercado',
+    'Vivero',
+    'Comida',
+    'Comidas rapidas',
+    'Ropa',
+    'Bisuteria',
+    'Papeleria',
+    'Otros'
+]
+
 const ModalChaza = ({
     open,
     onClose,
     add,
+    propietario,
+    chaza
   }: {
     open: boolean;
     onClose: () => void;
     add: boolean;
+    propietario: any;
+    chaza?: any;
   }) => {
-    if (!open) return null;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [value, setValue] = React.useState('Controlled');
-  
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
-    };
+    const [name, setName] = useState(add ? '' : chaza.nombre);
+    const [ description, setDescription] = useState(add ? '' : chaza.descripcion);
+    const [ubicacion, setUbicacion] = useState(add ? '' : chaza.ubicacion);
+    const [horario, setHorario] = useState(add ? '': chaza.horario);
+    const [telefono, setTelefono] = useState(add ? '': chaza.telefono);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(add ? [] : chaza.categorias);
+    const [pfp, setPfp] = useState<string>('');
+    const [bgPic, setBgPic] = useState<string>('');
+    const router = useRouter();
+
+    useEffect(() => {
+      console.log(add)
+      setName(add ? '' : chaza.nombre);
+      setDescription(add ? '' : chaza.descripcion);
+      setUbicacion(add ? '' : chaza.ubicacion);
+      setHorario(add ? '': chaza.horario);
+      setTelefono(add ? '': chaza.telefono);
+      setSelectedCategories(add ? [] : chaza.categorias);
+    }, [add, chaza])
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (add) {
+      const chaza = {
+        nombre: name,
+        descripcion: description,
+        ubicacion,
+        horario,
+        telefono,
+        categorias: selectedCategories,
+        calificacion: 0,
+        comentarios: [],
+        reportes: [],
+        propietario: propietario.nombre,
+        urlFotoChaza: pfp,
+        urlImagen: bgPic
+      }
+      const body = {
+        propietario,
+        chaza
+      }
+
+      fetch('${process.env.NEXT_PUBLIC_API_URL}/addChaza', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    } else {
+      const toUpdateChaza = {
+        nombre: name,
+        descripcion: description,
+        ubicacion,
+        horario,
+        telefono,
+        categorias: selectedCategories
+      }
+
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateChaza?id=${chaza.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toUpdateChaza)
+      })
+    }
+    router.reload();
+  }
+
+    if (!open) return null; 
   return (
     <div
         onClick={onClose}
-        className="fixed top-2 right-0 z-50 grid w-full md:w-full justify-items-center overflow-auto"
+        className="fixed top-4 mr-3 z-50 grid h-96 md:h-[30rem] lg:h-[43rem] border border-black bg-white shadow-2xl w-fit justify-items-center overflow-auto"
       >
-        <div
+        <form
           onClick={(e) => {
             e.stopPropagation();
           }}
-          className="p-4 md:mr-8 w-11/12 md:w-2/3 h-auto border border-black bg-white shadow-2xl grid justify-items-stretch"
+          onSubmit={handleSubmit}
+          className="p-4 md:mr-8 w-fit h-auto grid justify-items-stretch"
         >
           <IconButton
             color="secondary"
@@ -79,47 +164,155 @@ const ModalChaza = ({
             <div>
               <TextField
                 id="outlined-multiline-static"
+                label="Nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-11/12 m-1 mt-3"
+              />
+              <TextField
+                id="outlined-multiline-static"
                 label="Descripción de la chaza"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 multiline
                 rows={2}
-                defaultValue=""
                 className="w-11/12 m-1 mt-3"
               />
               <TextField
                 id="outlined-multiline-static"
                 label="Descripción de la ubicación"
-                defaultValue=""
+                value={ubicacion}
+                onChange={(e) => setUbicacion(e.target.value)}
                 className="w-11/12 m-1 mt-3"
               />
               <TextField
                 id="outlined-multiline-static"
                 label="Teléfono"
-                defaultValue=""
-                className="w-11/12 m-1 mt-3"
-              />
-              <TextField
-                id="outlined-multiline-static"
-                label="Días de atención"
-                defaultValue=""
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+                type="tel"
                 className="w-11/12 m-1 mt-3"
               />
               <TextField
                 id="outlined-multiline-static"
                 label="Horario de atención"
-                defaultValue=""
+                value={horario}
+                onChange={(e) => setHorario(e.target.value)}
                 className="w-11/12 m-1 mt-3"
               />
+              {add && (
+                <>
+              <p className='md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5'>Foto de perfil</p>
+              <input type='file' accept='image/*' onChange={(e) => {
+                const metadata = {
+                  contentType: 'image/jpeg'
+                };
+                if (e.target.files) {
+                  const file= e?.target?.files[0];
+                  console.log(file);
+                  const storageRef = ref(storage, 'images/' + file.name);
+                  const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+                  if (file) uploadTask.on('state_changed', (snapshot: any) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                      case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                      case 'running':
+                        console.log('Upload is running');
+                        break;
+                    }
+                  }, (error) => {
+                    switch (error.code) {
+                      case 'storage/unauthorized':
+                        console.log(error)
+                        break;
+
+                      case 'storage/canceled':
+                        console.log(error)
+                        break;
+
+                      case 'storage/unknown':
+                        console.log(error)
+                        break;
+                    }
+                  }, () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL:any) => {
+                      console.log('File available at', downloadURL);
+                      setPfp(downloadURL);
+                    });
+                  })
+                }
+                ;
+              }} className="w-11/12 m-1 mt-3" />
+              <p className='md:text-2xl sm:text-xl font-medium leading-none mt-3 mr-5'>Imágen de fondo</p>
+              <input type="file" accept='image/*' onChange={(e) => {
+                const metadata = {
+                  contentType: 'image/jpeg'
+                };
+                if (e.target.files) {
+                  const file= e?.target?.files[0];
+                  console.log(file);
+                  const storageRef = ref(storage, 'images/' + file.name);
+                  const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+                  if (file) uploadTask.on('state_changed', (snapshot: any) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                      case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                      case 'running':
+                        console.log('Upload is running');
+                        break;
+                    }
+                  }, (error) => {
+                    switch (error.code) {
+                      case 'storage/unauthorized':
+                        console.log(error)
+                        break;
+
+                      case 'storage/canceled':
+                        console.log(error)
+                        break;
+
+                      case 'storage/unknown':
+                        console.log(error)
+                        break;
+                    }
+                  }, () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL:any) => {
+                      console.log('File available at', downloadURL);
+                      setBgPic(downloadURL);
+                    });
+                  })
+                }
+                ;
+              }} className="w-11/12 m-1 mt-3" />
+              </>
+              )}
             </div>
           </Box>
-          <MultipleSelect chaza={(false)} report={(false)}/>
+          <Select
+          label='categorias'
+          value={selectedCategories}
+          onChange={(e) => setSelectedCategories(e.target.value as string[])}
+          multiple
+          className='mt-5'
+          >
+            {categories.map((category, index) => (
+              <MenuItem key={index} value={category}>{category}</MenuItem>
+            ))}
+          </Select>
           <Stack spacing={2} direction="row" className='justify-self-end mt-4 mr-5'>
-            <ButtonCust variant="contained">{(add)? "Añadir":"Editar"} chaza</ButtonCust>
+            <ButtonCust
+            disabled={add ? name === '' || description === '' || ubicacion === '' || telefono === '' || horario === '' || pfp === '' || bgPic === '' || selectedCategories.length === 0 : false}
+            type='submit' variant="contained">{(add)? "Añadir":"Editar"} chaza</ButtonCust>
           </Stack>
-        </div>
+        </form>
       </div>
   )
 }
 
 export default ModalChaza
-
-

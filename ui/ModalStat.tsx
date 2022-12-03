@@ -35,11 +35,11 @@ const ButtonCust = styled(Button)({
 const ModalStat = ({
   open,
   onClose,
-  
+  data
 }: {
   open: boolean;
   onClose: () => void;
-  
+  data: any;
 }) => {
   if (!open) return null;
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -71,7 +71,7 @@ const ModalStat = ({
         
         <p className="text-2xl font-medium leading-none mr-5">Estadísticas de los comentario</p>
         
-        <PieChart/>
+        <PieChart data={data}/>
         
       </div>
     </div>

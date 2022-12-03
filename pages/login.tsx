@@ -170,19 +170,19 @@ const Login = () => {
 						<Button className='p-2 rounded-md' variant='outlined' color='inherit' startIcon={<FacebookIcon />}>Iniciar sesión con Facebook</Button>
 						<p className='text-gray-500 text-center'>-OR-</p>
 			</div> */}
-			<div className='flex flex-row'>
-				<div className="bg-no-repeat h-screen w-[50%] flex items-center"
+			<div className='flex flex-col md:flex-row'>
+				<div className="bg-no-repeat h-screen w-[50%] hidden md:flex items-center"
 					style={{ backgroundImage: "url('images/register_bg.png')" }}>
-					<Image className='translate-x-44' src="/images/3d men.svg" alt='3d woman' width={500} height={500} />
+					<Image className=' translate-x-0 xl:translate-x-44 ' src="/images/3d men.svg" alt='3d woman' width={400} height={400} />
 				</div>
-				<div className='bg-[#F7F8FF] flex items-center justify-center w-full rounded-lg'>
+				<div className='bg-[#F7F8FF] flex pt-10 md:pt-0 items-center justify-center w-full rounded-lg'>
 					<div className='flex flex-col gap-2'>
 						<p className='text-3xl font-bold text-center'>Iniciar Sesión</p>
 						<div className='flex flex-row gap-8'>
 
 						</div>
 					
-						<form className='flex flex-col gap-4 justify-items-start' onSubmit={handleSubmit}>
+						<form className='flex flex-col gap-4 w-64 md:w-[35rem] justify-items-start' onSubmit={handleSubmit}>
 							<TextField
 								error={emailError}
 								value={email}

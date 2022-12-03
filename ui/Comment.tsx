@@ -33,8 +33,9 @@ const UpVotesButton = styled(Button)({
     
   });
 
-function Comment({userName, userPhoto, grade, date,comment, upvotes}:{userName:string, userPhoto:string, grade:number, date:string,comment:string, upvotes:number}) {
+function Comment({uid, userName, userPhoto, grade, date,comment, upvotes}:{uid:string, userName:string, userPhoto:string, grade:number, date:string,comment:string, upvotes:number}) {
   const [openModal, setOpenModal] = useState(false)
+  const [upvotesCount, setUpvotesCount] = useState(upvotes)
 
   const formatDate = (date: string) => {
     const dateObj = new Date(date);
@@ -43,6 +44,11 @@ function Comment({userName, userPhoto, grade, date,comment, upvotes}:{userName:s
     const year = dateObj.getFullYear();
     return `${day} de ${month} de ${year}`;
   };
+
+  const handleUpvotes = () => {
+    setUpvotesCount(upvotesCount + 1)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/upvote?id=${uid}`)
+  }
 
   return (
     <div className='w-full flex justify-center mt-4'>
@@ -66,13 +72,13 @@ function Comment({userName, userPhoto, grade, date,comment, upvotes}:{userName:s
             <p className="text-base font-light leading-none text-justify">{comment}</p>
             <div className="mt-2 flex flex-nowrap items-center flex justify-between">
                 
-            <UpVotesButton variant="contained" startIcon={<ThumbUpOffAltIcon />}>
-                {upvotes} upvotes
+            <UpVotesButton onClick={handleUpvotes} variant="contained" startIcon={<ThumbUpOffAltIcon />}>
+                {upvotesCount} upvotes
             </UpVotesButton>
             <IconButton onClick={() => setOpenModal(true)} color="secondary" aria-label="add an alarm">
                 <ErrorOutlineIcon sx={{ color: red[500] }}/>
             </IconButton> 
-            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} chaza={(false)} report={(true)}/>
+            <ModalReport open={openModal} onClose={()=> setOpenModal(false)} isChaza={(false)} comentario={uid} />
             </div>
         </div>
     </div>

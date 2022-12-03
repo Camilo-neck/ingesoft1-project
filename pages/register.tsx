@@ -51,7 +51,7 @@ const Register = () => {
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
 				// Signed in 
-				await fetch(`http://localhost:3000/api/createUser`, {
+				await fetch(`${process.env.NEXT_PUBLIC_API_URL}/createUser`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -189,16 +189,16 @@ const Register = () => {
 
 			</div> */}
 			<div className='flex flex-row'>
-				<div className="bg-no-repeat h-screen w-[50%] flex items-center"
+				<div className="bg-no-repeat h-screen w-[50%] hidden md:flex items-center"
 					style={{ backgroundImage: "url('images/register_bg.png')" }}>
-					<Image className='translate-x-44' src="/images/3d-young-woman.svg" alt='3d woman' width={500} height={500} />
+					<Image className='translate-x-0 xl:translate-x-44' src="/images/3d-young-woman.svg" alt='3d woman' width={500} height={500} />
 				</div>
-				<div className='bg-[#F7F8FF] flex items-center justify-center w-full rounded-lg'>
+				<div className='bg-[#F7F8FF] flex pt-10 items-center justify-center w-full rounded-lg'>
 					<div className='flex flex-col gap-2'>
 						<p className='text-3xl font-bold text-center'>Crear Cuenta</p>
 						<div className='flex flex-row gap-8'>
 						</div>
-						<form className='flex flex-col gap-4 justify-items-start' onSubmit={handleSubmit}>
+						<form className='flex flex-col gap-4 w-64 md:w-[35rem] justify-items-start' onSubmit={handleSubmit}>
 							<TextField
 								value={name}
 								onChange={(e) => setName(e.target.value)}

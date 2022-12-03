@@ -41,7 +41,8 @@ export default async function handler(
 	await runMiddleware(req, res, cors)
 	try {
 		const body = req.body
-		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/add`, {
+		console.log(body)
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reporte/add`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export default async function handler(
 		console.log("error");
 	}
 	// res.status(200).json([
-	// 	{
+	// 	{.chazo
 	// 		"calificacion": 4,
 	// 		"categorias": [
 	// 			"Vivero"

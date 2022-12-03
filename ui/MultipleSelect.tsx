@@ -44,6 +44,7 @@ export default function SelectAutoWidth({chaza,report}:{chaza:boolean, report:bo
           value={age}
           onChange={handleChange}
           autoWidth
+          multiple={(!report)? true:false}
           label="Causa"
           className="w-10/12"
         >
