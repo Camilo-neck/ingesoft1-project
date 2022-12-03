@@ -159,13 +159,6 @@ const User: NextPage = () => {
                         
                         :<p/>}
                         
-                        <div className='flex justify-end mb-4 '>
-                            <Stack spacing={2} direction="row" className='mt-4 mr-5'>
-                                <Link href={'/editProfile'}>
-                                    <ButtonCust variant="contained">Editar datos</ButtonCust>
-                                </Link>
-                            </Stack>
-                        </div>
                     </div>
 
                 </div>
